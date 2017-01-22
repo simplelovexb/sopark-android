@@ -13,13 +13,17 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.provider.Settings;
+import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 
 /**
  * 继承了Activity，实现Android6.0的运行时权限检测
@@ -37,7 +41,7 @@ public class CheckPermissionsActivity extends AppCompatActivity {
 	 * 需要进行检测的权限数组
 	 */
 	protected RequestQueue mQueue = null;
-
+	protected Toolbar toolbar = null;
 	protected String[] needPermissions = {
 			Manifest.permission.ACCESS_COARSE_LOCATION,
 			Manifest.permission.ACCESS_FINE_LOCATION,
@@ -157,6 +161,13 @@ public class CheckPermissionsActivity extends AppCompatActivity {
 		builder.setCancelable(false);
 
 		builder.show();
+	}
+
+
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		mQueue = Volley.newRequestQueue(getApplicationContext());
+		super.onCreate(savedInstanceState);
 	}
 
 	/**
