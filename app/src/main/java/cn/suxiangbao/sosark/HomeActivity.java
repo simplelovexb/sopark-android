@@ -3,6 +3,7 @@ package cn.suxiangbao.sosark;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
@@ -181,28 +182,25 @@ public class HomeActivity extends CheckPermissionsActivity
     }
 
 
-
-
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
+        Intent i = new Intent();
+        if (id == R.id.nav_park) {
+            i.setClass(HomeActivity.this,PartActivity.class);
+        } else if (id == R.id.nav_car) {
+            i.setClass(HomeActivity.this,CarActivity.class);
+        } else if (id == R.id.nav_collection) {
+            i.setClass(HomeActivity.this,CollectionActivity.class);
+        } else if (id == R.id.nav_wallet) {
+            i.setClass(HomeActivity.this,WalletActivity.class);
+        } else if (id == R.id.nav_msg) {
+            i.setClass(HomeActivity.this,MsgActivity.class);
         } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
-
+            i.setClass(HomeActivity.this,ManageActivity.class);
         }
-
+        startActivity(i);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;

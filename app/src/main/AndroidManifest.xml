@@ -57,75 +57,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- <activity -->
-        <!-- android:name=".Location_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".LastLocation_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_Old_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".Assistant_Location_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".Alarm_Location_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".ErrorCode_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".Tools_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_Round_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_Polygon_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_Keyword_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_Nearby_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <!-- <activity -->
-        <!-- android:name=".GeoFence_District_Activity" -->
-        <!-- android:configChanges="keyboardHidden|orientation|screenSize" -->
-        <!-- android:windowSoftInputMode="adjustResize|stateHidden" > -->
-        <!-- </activity> -->
-        <activity
-            android:name=".GeoFence_Multiple_Activity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
         <activity
             android:name=".GuideActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -149,6 +80,12 @@
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
         </activity>
+        <activity android:name=".PartActivity" />
+        <activity android:name=".CarActivity" />
+        <activity android:name=".CollectionActivity" />
+        <activity android:name=".WalletActivity" />
+        <activity android:name=".MsgActivity" />
+        <activity android:name=".ManageActivity"></activity>
     </application>
 
 </manifest>

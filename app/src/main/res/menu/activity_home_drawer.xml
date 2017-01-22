@@ -4,20 +4,20 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_park"
-            android:icon="@drawable/ic_menu_car"
-            android:title="车位管理" />
+            android:icon="@drawable/ic_menu_park"
+            android:title="@string/nav_menu_park" />
         <item
             android:id="@+id/nav_car"
-            android:icon="@drawable/ic_menu_park"
-            android:title="车辆管理" />
+            android:icon="@drawable/ic_menu_car"
+            android:title="@string/nav_menu_car" />
         <item
             android:id="@+id/nav_collection"
             android:icon="@drawable/ic_menu_collection"
-            android:title="收藏夹" />
+            android:title="@string/nav_menu_collection" />
         <item
             android:id="@+id/nav_wallet"
             android:icon="@drawable/ic_menu_wallet"
-            android:title="钱包" />
+            android:title="@string/nav_menu_wallet" />
     </group>
 
     <item android:title="Other Tool">
@@ -26,11 +26,11 @@
             <item
                 android:id="@+id/nav_msg"
                 android:icon="@drawable/ic_menu_msg"
-                android:title="消息" />
+                android:title="@string/nav_menu_msg" />
             <item
                 android:id="@+id/nav_manage"
                 android:icon="@drawable/ic_menu_manage"
-                android:title="设置" />
+                android:title="@string/nav_menu_manager" />
         </menu>
     </item>
 

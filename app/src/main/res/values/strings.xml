@@ -113,10 +113,10 @@
     <string name="setting">设置</string>
     <string name="cancel">取消</string>
 	
-	
-	
-	
-	
+
+
+
+
 	<string name="errorCodeInfo">
 	    0	定位成功。	可以在定位回调里判断定位返回成功后再进行业务逻辑运算\n
 	    1	一些重要参数为空，如context；	请对定位传递的参数进行非空判断\n
@@ -141,6 +141,16 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="search_title">搜索 </string>
-    <string name="search_hint">输入小区，地址</string>
+    <string name="search_hint">输入小区，地址，大型建筑</string>
     <string name="settings_description">settings_description</string>
+
+
+    <!-- nav -->
+    <string name="nav_menu_park">车位管理</string>
+    <string name="nav_menu_car">车辆管理</string>
+    <string name="nav_menu_collection">车位收藏</string>
+    <string name="nav_menu_wallet">我的钱包</string>
+    <string name="nav_menu_msg">消息盒子</string>
+    <string name="nav_menu_manager">设置</string>
+
 </resources>
