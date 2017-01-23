@@ -9,7 +9,7 @@ public class CarPort {
     private String name;
     private Long owner;
     private String comment;
-    private Point coordinate;
+    private GeoPoint coordinate;
 
     public Long getId() {
         return id;
@@ -43,11 +43,11 @@ public class CarPort {
         this.comment = comment;
     }
 
-    public Point getCoordinate() {
+    public GeoPoint getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(Point coordinate) {
+    public void setCoordinate(GeoPoint coordinate) {
         this.coordinate = coordinate;
     }
 

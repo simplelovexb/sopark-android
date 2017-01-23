@@ -3,7 +3,6 @@ package cn.suxiangbao.sosark.util;
 import java.io.UnsupportedEncodingException;
 import java.util.Map;
 
-import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -16,30 +15,31 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 
-public  class JsonArrayPostRequest extends Request<JSONArray>{
+public  class JsonObjectRequest extends Request<JSONObject>{
     private Map<String,String> mMap;
-    private Listener<JSONArray>  mListener;
+    private Listener<JSONObject>  mListener;
 
 
-    public JsonArrayPostRequest(String url,Listener<JSONArray> listener, ErrorListener errorListener,Map map) {
-        super(Request.Method.POST, url, errorListener);
+    public JsonObjectRequest(int method ,String url, Listener<JSONObject> listener, ErrorListener errorListener, Map map) {
+        super(method, url, errorListener);
         mListener=listener;
         mMap=map;
 
-        // TODO Auto-generated constructor stub
     }
+
+
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
-        // TODO Auto-generated method stub
+
         return mMap;
     }
 
     @Override
-    protected Response<JSONArray> parseNetworkResponse(NetworkResponse response) {
+    protected Response<JSONObject> parseNetworkResponse(NetworkResponse response) {
         try {
             String jsonString =
                     new String(response.data, HttpHeaderParser.parseCharset(response.headers));
-            return Response.success(new JSONArray(jsonString),
+            return Response.success(new JSONObject(jsonString),
                     HttpHeaderParser.parseCacheHeaders(response));
         } catch (UnsupportedEncodingException e) {
             return Response.error(new ParseError(e));
@@ -49,7 +49,7 @@ public  class JsonArrayPostRequest extends Request<JSONArray>{
     }
 
     @Override
-    protected void deliverResponse(JSONArray response) {
+    protected void deliverResponse(JSONObject response) {
         mListener.onResponse(response);
 
     }
