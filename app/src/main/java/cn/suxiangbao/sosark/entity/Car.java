@@ -7,6 +7,7 @@ import java.util.List;
 
 /**
  * Created by Administrator on 2017/1/23.
+ * 汽车实体类
  */
 public class Car {
     /**

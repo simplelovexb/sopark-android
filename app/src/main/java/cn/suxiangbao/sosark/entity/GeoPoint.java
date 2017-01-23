@@ -4,6 +4,7 @@ import com.google.gson.annotations.SerializedName;
 
 /**
  * Created by Administrator on 2017/1/2.
+ * 地理位置
  */
 public class GeoPoint {
 

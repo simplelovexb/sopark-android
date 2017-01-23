@@ -3,6 +3,7 @@ package cn.suxiangbao.sosark.entity;
 
 /**
  * Created by Administrator on 2017/1/2.
+ * 车位实体类
  */
 public class CarPort {
     private Long id ;

@@ -17,6 +17,9 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amap.api.location.AMapLocation;
@@ -36,6 +39,7 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
@@ -55,9 +59,13 @@ import static cn.suxiangbao.sosark.config.ServerUrl.URL_GEO_NEAR;
 
 public class HomeActivity extends CheckPermissionsActivity
         implements NavigationView.OnNavigationItemSelectedListener , LocationSource ,AMapLocationListener {
+    private ImageView mIcon;
+    private TextView mNick;
+    private TextView mIdentifySign;
+    private NavigationView navigationView = null;
+    private View navHeader = null;
     private static final String TAG = HomeActivity.class.getCanonicalName();
     private LocationSource.OnLocationChangedListener mListener;
-    private android.widget.SearchView mSearchView;
     private AMapLocationClient mlocationClient;
     private AMapLocationClientOption mLocationOption;
     private MapView mMapView = null;
@@ -80,9 +88,27 @@ public class HomeActivity extends CheckPermissionsActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+        initNav();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+    }
+
+    private void initNav(){
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        navHeader = navigationView.getHeaderView(0);
+        navHeader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(HomeActivity.this,UserInfoActivity.class);
+                startActivity(i);
+            }
+        });
+        mIcon = (ImageView) navHeader.findViewById(R.id.icon_user);
+        mNick = (TextView) navHeader.findViewById(R.id.txt_nick);
+        mIdentifySign = (TextView) navHeader.findViewById(R.id.txt_identify_sign);
+
+        //TODO
+
     }
 
     private void intiMap(Bundle savedInstanceState) {
@@ -118,7 +144,6 @@ public class HomeActivity extends CheckPermissionsActivity
         mUiSettings.setCompassEnabled(true);
         mUiSettings.setScaleControlsEnabled(true);
         aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
-        LatLng latLng = new LatLng(39.906901,116.397972);
 
     }
     public boolean onCreateOptionsMenu(Menu menu) {
