@@ -15,14 +15,14 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -56,7 +56,7 @@ public class ParkActivity extends BaseActivity {
     private void initView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        parks = Lists.newArrayList();
+        parks = new ArrayList<>();
         mParkList = (RecyclerView) findViewById(R.id.list_park);
         mParkList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NormalRecyclerViewAdapter();
@@ -67,7 +67,7 @@ public class ParkActivity extends BaseActivity {
     private void loadData(){
 
         //TODO
-        Map<String,String> params = Maps.newHashMap();
+        Map<String,String> params = new HashMap<>();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL_PERSON_CARS_LIST, new Response.Listener<JSONArray>() {
 

@@ -15,14 +15,14 @@ import android.widget.TextView;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +48,7 @@ public class CarActivity extends BaseActivity {
         setContentView(R.layout.activity_car);
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        cars = Lists.newArrayList();
+        cars = new ArrayList<>();
         mRecyclerView = (RecyclerView) findViewById(R.id.list_car);
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));//这里用线性显示 类似于listview
@@ -58,7 +58,7 @@ public class CarActivity extends BaseActivity {
     }
 
     private void loadData(){
-        Map<String,String> params = Maps.newHashMap();
+        Map<String,String> params = new HashMap<>();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL_PERSON_CARS_LIST, new Response.Listener<JSONArray>() {
 
