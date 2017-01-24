@@ -1,6 +1,5 @@
 package cn.suxiangbao.sosark;
 
-import android.app.Activity;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
 import android.content.Context;
@@ -16,7 +15,7 @@ import android.widget.SimpleCursorAdapter;
 import android.provider.ContactsContract.RawContacts;
 import android.widget.Toast;
 
-public class SearchActivity extends CheckPermissionsActivity {
+public class SearchActivity extends BaseActivity {
 
     private SearchView mSearchView;
     private ListView mListView;

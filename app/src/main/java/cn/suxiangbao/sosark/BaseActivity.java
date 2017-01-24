@@ -12,6 +12,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -20,10 +21,23 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.ImageRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+
+import org.apache.commons.lang3.StringUtils;
+
+import cn.suxiangbao.sosark.entity.UserInfo;
+
+import static android.R.attr.width;
 
 /**
  * 继承了Activity，实现Android6.0的运行时权限检测
@@ -36,11 +50,13 @@ import com.android.volley.toolbox.Volley;
  * @类型名称：PermissionsChecker
  * @since 2.5.0
  */
-public class CheckPermissionsActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity {
 	/**
 	 * 需要进行检测的权限数组
 	 */
+    private static final String TAG = BaseActivity.class.getCanonicalName();
 	protected RequestQueue mQueue = null;
+    protected UserInfo userInfo;
 	protected Toolbar toolbar = null;
 	protected String[] needPermissions = {
 			Manifest.permission.ACCESS_COARSE_LOCATION,
@@ -67,7 +83,7 @@ public class CheckPermissionsActivity extends AppCompatActivity {
 	
 	/**
 	 * 
-	 * @param needRequestPermissonList
+	 * @param permissions
 	 * @since 2.5.0
 	 *
 	 */
@@ -167,6 +183,7 @@ public class CheckPermissionsActivity extends AppCompatActivity {
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		mQueue = Volley.newRequestQueue(getApplicationContext());
+        userInfo = getUserInfo();
 		super.onCreate(savedInstanceState);
 	}
 
@@ -192,4 +209,46 @@ public class CheckPermissionsActivity extends AppCompatActivity {
 		return super.onKeyDown(keyCode, event);
 	}
 
+	public void loadImage(String url, final ImageView imageView){
+        if (imageView == null){
+            return;
+        }
+        if (url==null || StringUtils.isBlank(url) || StringUtils.isEmpty(url)){
+            return;
+        }
+		float width = imageView.getWidth();
+		float height = imageView.getHeight();
+		loadImage(url,imageView, ImageView.ScaleType.FIT_XY,(int)width,(int) height);
+	}
+
+    public void loadImage(String url, final ImageView imageView, ImageView.ScaleType type ,int width,int height){
+        if (imageView == null){
+            return;
+        }
+        if (url==null || StringUtils.isBlank(url) || StringUtils.isEmpty(url)){
+            return;
+        }
+
+        ImageRequest request = new ImageRequest(url, new Response.Listener<Bitmap>() {
+            @Override
+            public void onResponse(Bitmap response) {
+                Log.i(TAG,"loadImage Success");
+                imageView.setImageBitmap(response);
+            }
+        }, (int)width, (int) height, type, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.i(TAG,"loadImage Error");
+            }
+        });
+        mQueue.add(request);
+    }
+
+    public UserInfo getUserInfo(){
+        if (userInfo == null){
+
+        }
+        //TODO
+        return  userInfo;
+    }
 }

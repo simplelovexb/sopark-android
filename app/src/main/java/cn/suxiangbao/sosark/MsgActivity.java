@@ -1,10 +1,9 @@
 package cn.suxiangbao.sosark;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 
-public class MsgActivity extends CheckPermissionsActivity {
+public class MsgActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

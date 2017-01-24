@@ -27,37 +27,46 @@ import java.util.List;
 import java.util.Map;
 
 import cn.suxiangbao.sosark.entity.Car;
+import cn.suxiangbao.sosark.entity.Park;
 import cn.suxiangbao.sosark.util.JsonArrayRequest;
-import cn.suxiangbao.sosark.innerview.CarDetailActivity;
+import cn.suxiangbao.sosark.innerview.ParkDetailActivity;
 
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_PERSON_CARS_LIST;
 
+public class ParkActivity extends BaseActivity {
 
-/**
- * 个人汽车列表页
- */
-public class CarActivity extends BaseActivity {
+    private static final String TAG = ParkActivity.class.getCanonicalName();
+    private NormalRecyclerViewAdapter adapter ;
+    private List<Park> parks ;
+    private RecyclerView mParkList;
 
-    private List<Car> cars;
-    private RecyclerView mRecyclerView;
-    private static final String TAG = CarActivity.class.getCanonicalName();
-    NormalRecyclerViewAdapter adapter = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        cars = Lists.newArrayList();
-        mRecyclerView = (RecyclerView) findViewById(R.id.list_car);
+        setContentView(R.layout.activity_park);
+        init();
+    }
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));//这里用线性显示 类似于listview
-        adapter = new NormalRecyclerViewAdapter();
-        mRecyclerView.setAdapter(adapter);
+    private void init(){
+        initView();
         loadData();
     }
 
+    private void initView(){
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        parks = Lists.newArrayList();
+        mParkList = (RecyclerView) findViewById(R.id.list_park);
+        mParkList.setLayoutManager(new LinearLayoutManager(this));
+        adapter = new NormalRecyclerViewAdapter();
+        mParkList.setAdapter(adapter);
+    }
+
+
     private void loadData(){
+
+        //TODO
         Map<String,String> params = Maps.newHashMap();
 
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL_PERSON_CARS_LIST, new Response.Listener<JSONArray>() {
@@ -66,9 +75,9 @@ public class CarActivity extends BaseActivity {
             public void onResponse(JSONArray response) {
                 Log.i(TAG,response.toString());
                 Gson gson = new Gson();
-                List<Car> list =  gson.fromJson(response.toString(), new TypeToken<List<Car>>() {}.getType());
-                cars.clear();
-                Collections.copy(cars,list);
+                List<Park> list =  gson.fromJson(response.toString(), new TypeToken<List<Car>>() {}.getType());
+                parks.clear();
+                Collections.copy(parks,list);
                 adapter.notifyDataSetChanged();
             }
         }, new Response.ErrorListener() {
@@ -80,32 +89,28 @@ public class CarActivity extends BaseActivity {
         mQueue.add(jsonArrayRequest);
     }
 
-    private class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecyclerViewAdapter.NormalTextViewHolder> {
+
+    private class NormalRecyclerViewAdapter extends RecyclerView.Adapter<ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder> {
         private final LayoutInflater mLayoutInflater;
 
         public NormalRecyclerViewAdapter() {
-            mLayoutInflater = LayoutInflater.from(CarActivity.this);
+            mLayoutInflater = LayoutInflater.from(ParkActivity.this);
         }
 
         @Override
-        public NormalTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new NormalTextViewHolder(mLayoutInflater.inflate(R.layout.item_car, parent, false));
+        public ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder(mLayoutInflater.inflate(R.layout.item_park, parent, false));
         }
 
         @Override
-        public void onBindViewHolder(final NormalTextViewHolder holder, int position) {
-            Car car = cars.get(position);
-            String bandAndVersion = car.getBrand()+" " + car.getVersion();
-            holder.licencePlate.setText(car.getLicencePlate());
-            holder.bandAndVersion.setText(bandAndVersion);
-            float width = getResources().getDimension(R.dimen.item_car_icon_width);
-            float heigh = getResources().getDimension(R.dimen.item_car_icon_heigh);
-            loadImage(car.getIcon(),holder.icon, ImageView.ScaleType.FIT_XY,(int )width,(int)heigh);
+        public void onBindViewHolder(final ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder holder, int position) {
+            Park park = parks.get(position);
+            //TODO
         }
 
         @Override
         public int getItemCount() {
-            return cars == null ? 0 : cars.size();
+            return parks == null ? 0 : parks.size();
         }
 
         public class NormalTextViewHolder extends RecyclerView.ViewHolder {
@@ -122,7 +127,7 @@ public class CarActivity extends BaseActivity {
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent i = new Intent(CarActivity.this, CarDetailActivity.class);
+                        Intent i = new Intent(ParkActivity.this, ParkDetailActivity.class);
                         startActivity(i);
                     }
                 });

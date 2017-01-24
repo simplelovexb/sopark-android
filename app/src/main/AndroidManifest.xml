@@ -76,7 +76,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PartActivity"
+            android:name=".ParkActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -101,10 +101,11 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".view.CarDetailActivity"
+            android:name=".innerview.CarDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserInfoActivity"></activity>
+        <activity android:name=".UserInfoActivity" />
+        <activity android:name=".innerview.ParkDetailActivity"></activity>
     </application>
 
 </manifest>

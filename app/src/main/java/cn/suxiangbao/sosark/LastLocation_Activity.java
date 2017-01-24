@@ -23,7 +23,7 @@ import cn.suxiangbao.sosark.util.Utils;
  * @类型名称：LastLocation_Activity
  * @since 2.3.0
  */
-public class LastLocation_Activity extends CheckPermissionsActivity implements OnClickListener{
+public class LastLocation_Activity extends BaseActivity implements OnClickListener{
 	private Button btnLastLoc;
 	private TextView tvReult;
 	private AMapLocationClient locationClient = null;

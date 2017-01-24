@@ -1,4 +1,4 @@
-package cn.suxiangbao.sosark.view;
+package cn.suxiangbao.sosark.innerview;
 
 import android.content.Context;
 import android.view.LayoutInflater;

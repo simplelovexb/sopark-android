@@ -153,4 +153,8 @@
     <string name="nav_menu_msg">消息盒子</string>
     <string name="nav_menu_manager">设置</string>
 
+    <string name="default_identify_sign">这个人很懒，什么都没说</string>
+    <string name="default_nick">新人宝宝</string>
+
+
 </resources>

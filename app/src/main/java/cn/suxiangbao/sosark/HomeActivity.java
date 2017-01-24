@@ -39,15 +39,12 @@ import com.amap.api.maps.model.MyLocationStyle;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.ImageRequest;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -57,7 +54,7 @@ import cn.suxiangbao.sosark.util.JsonArrayRequest;
 
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_GEO_NEAR;
 
-public class HomeActivity extends CheckPermissionsActivity
+public class HomeActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener , LocationSource ,AMapLocationListener {
     private ImageView mIcon;
     private TextView mNick;
@@ -80,16 +77,25 @@ public class HomeActivity extends CheckPermissionsActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+        init(savedInstanceState);
+    }
+
+
+    private void init(Bundle savedInstanceState){
+        initBaseView();
+        initMap(savedInstanceState);
+        initNav();
+    }
+
+    private void initBaseView(){
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        intiMap(savedInstanceState);
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-        initNav();
-
     }
 
     private void initNav(){
@@ -108,10 +114,22 @@ public class HomeActivity extends CheckPermissionsActivity
         mIdentifySign = (TextView) navHeader.findViewById(R.id.txt_identify_sign);
 
         //TODO
+        loadImage(userInfo.getIcon(),mIcon);
+        String nick = userInfo.getNick();
+        String identifySign = userInfo.getIdentifySign();
+        if (StringUtils.isEmpty(nick)|| StringUtils.isBlank(nick)){
+            nick = getResources().getString(R.string.default_nick);
+        }
+        if (StringUtils.isEmpty(identifySign)|| StringUtils.isBlank(identifySign)){
+            identifySign = getResources().getString(R.string.default_identify_sign);
+        }
+
+        mNick.setText(nick);
+        mIdentifySign.setText(identifySign);
 
     }
 
-    private void intiMap(Bundle savedInstanceState) {
+    private void initMap(Bundle savedInstanceState) {
 
         //获取地图控件引用
         mMapView = (MapView) findViewById(R.id.map);
@@ -203,7 +221,7 @@ public class HomeActivity extends CheckPermissionsActivity
         int id = item.getItemId();
         Intent i = new Intent();
         if (id == R.id.nav_park) {
-            i.setClass(HomeActivity.this,PartActivity.class);
+            i.setClass(HomeActivity.this,ParkActivity.class);
         } else if (id == R.id.nav_car) {
             i.setClass(HomeActivity.this,CarActivity.class);
         } else if (id == R.id.nav_collection) {

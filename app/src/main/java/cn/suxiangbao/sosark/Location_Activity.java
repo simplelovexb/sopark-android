@@ -29,7 +29,7 @@ import cn.suxiangbao.sosark.util.Utils;
  * @文件名称: Hight_Accuracy_Activity.java
  * @类型名称: Hight_Accuracy_Activity
  */
-public class Location_Activity extends CheckPermissionsActivity
+public class Location_Activity extends BaseActivity
 		implements
 			OnCheckedChangeListener,
 			OnClickListener{

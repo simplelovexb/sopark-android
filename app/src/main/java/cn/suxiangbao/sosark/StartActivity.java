@@ -1,13 +1,12 @@
 package cn.suxiangbao.sosark;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
 
-public class StartActivity extends CheckPermissionsActivity {
+public class StartActivity extends BaseActivity {
 
     private ImageView mImage = null ;
 

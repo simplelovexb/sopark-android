@@ -14,6 +14,9 @@ public class UserInfo {
     private String password;
     private String nick;
     private String email;
+    private String icon;
+    private String identifySign;
+    private String readName;
     /**
      * 身份的认证类型
      */
@@ -89,6 +92,30 @@ public class UserInfo {
         this.nick = nick;
     }
 
+    public String getIcon() {
+        return icon;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getIdentifySign() {
+        return identifySign;
+    }
+
+    public void setIdentifySign(String identifySign) {
+        this.identifySign = identifySign;
+    }
+
+    public String getReadName() {
+        return readName;
+    }
+
+    public void setReadName(String readName) {
+        this.readName = readName;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -159,5 +186,25 @@ public class UserInfo {
     @Override
     public int hashCode() {
         return uid.hashCode();
+    }
+
+    @Override
+    public String toString() {
+        return "UserInfo{" +
+                "uid=" + uid +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", nick='" + nick + '\'' +
+                ", email='" + email + '\'' +
+                ", icon='" + icon + '\'' +
+                ", identifySign='" + identifySign + '\'' +
+                ", readName='" + readName + '\'' +
+                ", authType=" + authType +
+                ", phoneNum='" + phoneNum + '\'' +
+                ", idCards=" + idCards +
+                ", driverLicenses=" + driverLicenses +
+                ", emailAuth=" + emailAuth +
+                ", phoneAuth=" + phoneAuth +
+                '}';
     }
 }
