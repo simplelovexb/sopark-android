@@ -25,6 +25,8 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -278,4 +280,6 @@ public class BaseActivity extends AppCompatActivity {
 				return super.onOptionsItemSelected(item);
 		}
 	}
+
+
 }

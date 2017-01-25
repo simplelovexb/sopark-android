@@ -5,6 +5,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ public class MsgActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_msg);
+
         init();
     }
 
@@ -57,6 +59,7 @@ public class MsgActivity extends BaseActivity {
         adapter = new NormalRecyclerViewAdapter();
         msgList.setLayoutManager(new LinearLayoutManager(this));
         msgList.setAdapter(adapter);
+
     }
 
     private void loadData(){

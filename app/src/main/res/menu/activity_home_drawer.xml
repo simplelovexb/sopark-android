@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_park"
-            android:icon="@drawable/ic_menu_park"
-            android:title="@string/nav_menu_park" />
-        <item
-            android:id="@+id/nav_car"
-            android:icon="@drawable/ic_menu_car"
-            android:title="@string/nav_menu_car" />
-        <item
-            android:id="@+id/nav_collection"
-            android:icon="@drawable/ic_menu_collection"
-            android:title="@string/nav_menu_collection" />
-        <item
-            android:id="@+id/nav_wallet"
-            android:icon="@drawable/ic_menu_wallet"
-            android:title="@string/nav_menu_wallet" />
-    </group>
+    <item
+        android:id="@+id/nav_park"
+        android:icon="@drawable/ic_menu_park"
+        android:title="@string/nav_menu_park" />
+    <item
+        android:id="@+id/nav_car"
+        android:icon="@drawable/ic_menu_car"
+        android:title="@string/nav_menu_car" />
+    <item
+        android:id="@+id/nav_collection"
+        android:icon="@drawable/ic_menu_collection"
+        android:title="@string/nav_menu_collection" />
+    <item
+        android:id="@+id/nav_wallet"
+        android:icon="@drawable/ic_menu_wallet"
+        android:title="@string/nav_menu_wallet" />
 
-    <item android:title="Other Tool">
+    <item android:title="Others">
         <menu>
 
             <item

@@ -79,34 +79,44 @@
         <activity
             android:name=".ParkActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_park"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CarActivity"
+            android:label="@string/title_activity_car"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CollectionActivity"
+            android:label="@string/title_activity_collection"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
+            android:label="@string/title_activity_wallet"
             android:name=".WalletActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MsgActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_home"
+            android:label="@string/title_activity_msg"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ManageActivity"
+            android:label="@string/title_activity_manager"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".innerview.CarDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".UserInfoActivity" />
-        <activity android:name=".innerview.ParkDetailActivity"
+        <activity
+            android:name=".UserInfoActivity"
+            android:label="@string/title_activity_user"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"/>
+        <activity
+            android:name=".innerview.ParkDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar"
             />
