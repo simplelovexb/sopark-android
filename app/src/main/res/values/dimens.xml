@@ -38,4 +38,7 @@
     <dimen name="item_park_icon_width">64dp</dimen>
     <dimen name="item_park_icon_heigh">64dp</dimen>
 
+    <dimen name="item_msg_icon_width">64dp</dimen>
+    <dimen name="item_msg_icon_heigh">64dp</dimen>
+
 </resources>

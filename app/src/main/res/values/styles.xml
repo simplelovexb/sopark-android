@@ -21,12 +21,18 @@
         <item name="android:textStyle">normal</item>
 
     </style>
-    <style name="normalText" parent="baseTextTheme">
+    <style name="blackText" parent="baseTextTheme">
         <item name="android:textColor">@color/normalText</item>
-        <item name="android:textSize">@dimen/font_26</item>
     </style>
-    <style name="greyLittleText" parent="baseTextTheme">
+    <style name="greyText" parent="baseTextTheme">
         <item name="android:textColor">@color/greyText</item>
+    </style>
+
+    <style name="greyText.timeText">
         <item name="android:textSize">@dimen/font_22</item>
+    </style>
+
+    <style name="blackText.titleText" >
+        <item name="android:textSize">@dimen/font_34</item>
     </style>
 </resources>

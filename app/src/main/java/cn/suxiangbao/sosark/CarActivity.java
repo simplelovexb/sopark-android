@@ -2,11 +2,13 @@ package cn.suxiangbao.sosark;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -46,15 +48,24 @@ public class CarActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+
+        init();
+
+
+    }
+
+    private void init(){
+        initView();
+        loadData();
+    }
+
+    private void initView(){
+        toolbarSetting();
         cars = new ArrayList<>();
         mRecyclerView = (RecyclerView) findViewById(R.id.list_car);
-
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));//这里用线性显示 类似于listview
         adapter = new NormalRecyclerViewAdapter();
         mRecyclerView.setAdapter(adapter);
-        loadData();
     }
 
     private void loadData(){
@@ -129,4 +140,6 @@ public class CarActivity extends BaseActivity {
             }
         }
     }
+
+
 }

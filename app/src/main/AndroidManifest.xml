@@ -50,6 +50,7 @@
         <activity
             android:name=".StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -105,7 +106,10 @@
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".UserInfoActivity" />
-        <activity android:name=".innerview.ParkDetailActivity"></activity>
+        <activity android:name=".innerview.ParkDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.NoActionBar"
+            />
     </application>
 
 </manifest>

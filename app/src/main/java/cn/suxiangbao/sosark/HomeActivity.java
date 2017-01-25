@@ -327,6 +327,7 @@ public class HomeActivity extends BaseActivity
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
+        Log.d(TAG,"定位开始");
         mListener = onLocationChangedListener;
         if (mlocationClient == null) {
             //初始化定位

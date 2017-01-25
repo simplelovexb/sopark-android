@@ -9,7 +9,11 @@ public class CollectionActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_collection);
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        init();
     }
+
+    private void init(){
+        toolbarSetting();
+    }
+
 }

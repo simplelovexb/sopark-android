@@ -19,10 +19,12 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -37,6 +39,8 @@ import org.apache.commons.lang3.StringUtils;
 
 import cn.suxiangbao.sosark.entity.UserInfo;
 
+import static android.R.attr.breadCrumbShortTitle;
+import static android.R.attr.defaultValue;
 import static android.R.attr.width;
 
 /**
@@ -180,6 +184,7 @@ public class BaseActivity extends AppCompatActivity {
 	}
 
 
+
 	@Override
 	protected void onCreate(@Nullable Bundle savedInstanceState) {
 		mQueue = Volley.newRequestQueue(getApplicationContext());
@@ -251,4 +256,26 @@ public class BaseActivity extends AppCompatActivity {
         //TODO
         return  userInfo;
     }
+
+	public void toolbarSetting(){
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		ActionBar actionBar = getSupportActionBar();
+		if (actionBar!=null){
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
+
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()){
+			case android.R.id.home:{
+				finish();
+				return true;
+			}
+			default:
+				return super.onOptionsItemSelected(item);
+		}
+	}
 }

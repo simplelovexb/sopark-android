@@ -9,7 +9,10 @@ public class WalletActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        init();
+    }
+
+    private void init(){
+        toolbarSetting();
     }
 }

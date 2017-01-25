@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,8 +27,8 @@ import java.util.Map;
 
 import cn.suxiangbao.sosark.entity.Car;
 import cn.suxiangbao.sosark.entity.Park;
-import cn.suxiangbao.sosark.util.JsonArrayRequest;
 import cn.suxiangbao.sosark.innerview.ParkDetailActivity;
+import cn.suxiangbao.sosark.util.JsonArrayRequest;
 
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_PERSON_CARS_LIST;
 
@@ -54,8 +53,7 @@ public class ParkActivity extends BaseActivity {
     }
 
     private void initView(){
-        toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        toolbarSetting();
         parks = new ArrayList<>();
         mParkList = (RecyclerView) findViewById(R.id.list_park);
         mParkList.setLayoutManager(new LinearLayoutManager(this));

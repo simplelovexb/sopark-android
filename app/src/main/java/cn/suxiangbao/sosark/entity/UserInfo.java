@@ -1,5 +1,7 @@
 package cn.suxiangbao.sosark.entity;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -8,35 +10,49 @@ import java.util.List;
  */
 
 public class UserInfo {
-
+    @SerializedName(value = "uid" ,alternate = {"id","_id"})
     private Long uid;
+    @SerializedName(value = "username",alternate = {"uName"})
     private String username;
+    @SerializedName(value = "password",alternate = {"pwd","passwd"})
     private String password;
+    @SerializedName(value = "nick")
     private String nick;
+    @SerializedName(value = "email",alternate = {"e_mail"})
     private String email;
+    @SerializedName(value = "icon",alternate = {"img"})
     private String icon;
+    @SerializedName(value = "identifySign")
     private String identifySign;
-    private String readName;
+    @SerializedName(value = "realName",alternate = "real_name")
+    private String realName;
     /**
      * 身份的认证类型
      */
+    @SerializedName(value = "authType",alternate = {"status"})
     private AuthType authType;
+    @SerializedName(value = "phoneNum")
     private String phoneNum;
     /**
      * 身份证照片 包含正反面
      */
+
+    @SerializedName(value = "idCards")
     private List<String> idCards;
     /**
      * 驾驶证照片
      */
+    @SerializedName(value = "driverLicenses")
     private List<String> driverLicenses ;
     /**
      * 邮箱是否通过验证
      */
+    @SerializedName(value = "emailAuth")
     private Boolean emailAuth ;
     /**
      * 手机是否通过验证
      */
+    @SerializedName(value = "phoneAuth")
     private Boolean phoneAuth;
 
 
@@ -108,12 +124,12 @@ public class UserInfo {
         this.identifySign = identifySign;
     }
 
-    public String getReadName() {
-        return readName;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setReadName(String readName) {
-        this.readName = readName;
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getEmail() {
@@ -198,7 +214,7 @@ public class UserInfo {
                 ", email='" + email + '\'' +
                 ", icon='" + icon + '\'' +
                 ", identifySign='" + identifySign + '\'' +
-                ", readName='" + readName + '\'' +
+                ", realName='" + realName + '\'' +
                 ", authType=" + authType +
                 ", phoneNum='" + phoneNum + '\'' +
                 ", idCards=" + idCards +
