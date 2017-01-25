@@ -1,8 +1,0 @@
-<resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <item name="ic_menu_park" type="drawable">@drawable/ic_menu_park</item>
-    <item name="ic_menu_car" type="drawable">@drawable/ic_menu_car</item>
-    <item name="ic_menu_collection" type="drawable">@drawable/ic_menu_collection</item>
-    <item name="ic_menu_manage" type="drawable">@drawable/ic_menu_manage</item>
-    <item name="ic_menu_wallet" type="drawable">@drawable/ic_menu_wallet</item>
-    <item name="ic_menu_msg" type="drawable">@drawable/ic_menu_msg</item>
-</resources>

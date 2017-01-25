@@ -113,19 +113,19 @@ public class HomeActivity extends BaseActivity
         mNick = (TextView) navHeader.findViewById(R.id.txt_nick);
         mIdentifySign = (TextView) navHeader.findViewById(R.id.txt_identify_sign);
 
-        //TODO
-        loadImage(userInfo.getIcon(),mIcon);
-        String nick = userInfo.getNick();
-        String identifySign = userInfo.getIdentifySign();
-        if (StringUtils.isEmpty(nick)|| StringUtils.isBlank(nick)){
-            nick = getResources().getString(R.string.default_nick);
-        }
-        if (StringUtils.isEmpty(identifySign)|| StringUtils.isBlank(identifySign)){
-            identifySign = getResources().getString(R.string.default_identify_sign);
-        }
-
-        mNick.setText(nick);
-        mIdentifySign.setText(identifySign);
+//        //TODO
+//        loadImage(userInfo.getIcon(),mIcon);
+//        String nick = userInfo.getNick();
+//        String identifySign = userInfo.getIdentifySign();
+//        if (StringUtils.isEmpty(nick)|| StringUtils.isBlank(nick)){
+//            nick = getResources().getString(R.string.default_nick);
+//        }
+//        if (StringUtils.isEmpty(identifySign)|| StringUtils.isBlank(identifySign)){
+//            identifySign = getResources().getString(R.string.default_identify_sign);
+//        }
+//
+//        mNick.setText(nick);
+//        mIdentifySign.setText(identifySign);
 
     }
 
