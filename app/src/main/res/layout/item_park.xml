@@ -4,7 +4,7 @@
 
     <ImageView
         android:id="@+id/icon_park"
-        android:layout_width="@dimen/item_park_icon_heigh"
+        android:layout_width="@dimen/item_park_icon_height"
         android:layout_height="@dimen/item_park_icon_width" />
 
     <LinearLayout

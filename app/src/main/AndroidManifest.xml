@@ -36,8 +36,10 @@
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <!-- 3.2.0版本增加 -->
     <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
+        android:name=".album.AppContext"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:theme="@style/AppTheme">
@@ -50,13 +52,9 @@
         <activity
             android:name=".StartActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/app_name">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.NoActionBar">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".GuideActivity"
@@ -83,18 +81,18 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CarActivity"
-            android:label="@string/title_activity_car"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_car"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".CollectionActivity"
-            android:label="@string/title_activity_collection"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_collection"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:label="@string/title_activity_wallet"
             android:name=".WalletActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_wallet"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".MsgActivity"
@@ -103,8 +101,8 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ManageActivity"
-            android:label="@string/title_activity_manager"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_manager"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".innerview.CarDetailActivity"
@@ -112,14 +110,41 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UserInfoActivity"
-            android:label="@string/title_activity_user"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar"/>
+            android:label="@string/title_activity_user"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".innerview.ParkDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar"
-            />
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".UserInfoEditPageActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".IdcDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_idc_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DriverCardDetailActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_dc_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <activity
+            android:name=".album.PickBigImagesActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".album.PickOrTakeImageActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

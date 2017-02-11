@@ -2,13 +2,10 @@ package cn.suxiangbao.sosark;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -110,7 +107,7 @@ public class CarActivity extends BaseActivity {
             holder.licencePlate.setText(car.getLicencePlate());
             holder.bandAndVersion.setText(bandAndVersion);
             float width = getResources().getDimension(R.dimen.item_car_icon_width);
-            float heigh = getResources().getDimension(R.dimen.item_car_icon_heigh);
+            float heigh = getResources().getDimension(R.dimen.item_car_icon_height);
             loadImage(car.getIcon(),holder.icon, ImageView.ScaleType.FIT_XY,(int )width,(int)heigh);
         }
 

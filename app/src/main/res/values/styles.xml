@@ -19,13 +19,17 @@
     <style name="baseTextTheme" >
         <!-- Customize your theme here. -->
         <item name="android:textStyle">normal</item>
-
+        <item name="android:ellipsize">end</item>
     </style>
     <style name="blackText" parent="baseTextTheme">
         <item name="android:textColor">@color/normalText</item>
     </style>
     <style name="greyText" parent="baseTextTheme">
         <item name="android:textColor">@color/greyText</item>
+    </style>
+
+    <style name="greyText.normalSize">
+        <item name="android:textSize">@dimen/font_28</item>
     </style>
 
     <style name="greyText.timeText">
@@ -35,4 +39,8 @@
     <style name="blackText.titleText" >
         <item name="android:textSize">@dimen/font_34</item>
     </style>
+    <style name="blackText.normalSize">
+        <item name="android:textSize">@dimen/font_28</item>
+    </style>
+
 </resources>

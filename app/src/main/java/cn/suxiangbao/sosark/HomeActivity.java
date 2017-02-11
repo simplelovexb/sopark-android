@@ -176,7 +176,6 @@ public class HomeActivity extends BaseActivity
                 Toast.makeText(HomeActivity.this,"sdada.",Toast.LENGTH_SHORT).show();
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -200,7 +199,6 @@ public class HomeActivity extends BaseActivity
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
                 R.layout.item_suggestion, cursor, new String[] { "tb_name" },
                 new int[] { R.id.textview });
-
         searchView.setSuggestionsAdapter(adapter);
         return true;
     }

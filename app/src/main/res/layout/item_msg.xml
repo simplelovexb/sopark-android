@@ -10,14 +10,14 @@
     <ImageView
         android:id="@+id/icon_msg"
         android:layout_width="@dimen/item_msg_icon_width"
-        android:layout_height="@dimen/item_msg_icon_heigh" />
+        android:layout_height="@dimen/item_msg_icon_height" />
 
     <LinearLayout
         android:layout_marginRight="16sp"
         android:layout_marginLeft="16sp"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/item_msg_icon_heigh">
+        android:layout_height="@dimen/item_msg_icon_height">
         <LinearLayout
             android:layout_weight="1"
             android:orientation="horizontal"
