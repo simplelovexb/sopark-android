@@ -3,12 +3,14 @@
  */
 package cn.suxiangbao.sosark;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
 import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -26,6 +28,7 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,7 +42,9 @@ import com.android.volley.toolbox.Volley;
 
 import org.apache.commons.lang3.StringUtils;
 
+import butterknife.ButterKnife;
 import cn.suxiangbao.sosark.entity.UserInfo;
+import cn.suxiangbao.sosark.pic.KevinApplication;
 
 import static android.R.attr.breadCrumbShortTitle;
 import static android.R.attr.defaultValue;
@@ -56,7 +61,7 @@ import static android.R.attr.width;
  * @类型名称：PermissionsChecker
  * @since 2.5.0
  */
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
 	/**
 	 * 需要进行检测的权限数组
 	 */
@@ -64,6 +69,7 @@ public class BaseActivity extends AppCompatActivity {
 	protected RequestQueue mQueue = null;
     protected UserInfo userInfo;
 	protected Toolbar toolbar = null;
+	protected Context mContext			= null;
 	protected String[] needPermissions = {
 			Manifest.permission.ACCESS_COARSE_LOCATION,
 			Manifest.permission.ACCESS_FINE_LOCATION,
@@ -78,7 +84,22 @@ public class BaseActivity extends AppCompatActivity {
 	 * 判断是否需要检测，防止不停的弹框
 	 */
 	private boolean isNeedCheck = true;
-	
+
+
+
+	@Override
+	protected void onCreate(@Nullable Bundle savedInstanceState) {
+		KevinApplication.getInstance().mActivityStack.addActivity(this);
+		mQueue = Volley.newRequestQueue(getApplicationContext());
+		userInfo = getUserInfo();
+		setOverflowShowingAlways();
+
+		super.onCreate(savedInstanceState);
+		initContentView();
+		ButterKnife.bind(this);
+
+	}
+
 	@Override
 	protected void onResume() {
 		super.onResume();
@@ -86,6 +107,7 @@ public class BaseActivity extends AppCompatActivity {
 			checkPermissions(needPermissions);
 		}
 	}
+	protected abstract void initContentView();
 	
 	/**
 	 * 
@@ -187,12 +209,7 @@ public class BaseActivity extends AppCompatActivity {
 
 
 
-	@Override
-	protected void onCreate(@Nullable Bundle savedInstanceState) {
-		mQueue = Volley.newRequestQueue(getApplicationContext());
-        userInfo = getUserInfo();
-		super.onCreate(savedInstanceState);
-	}
+
 
 	/**
 	 *  启动应用的设置
@@ -281,5 +298,33 @@ public class BaseActivity extends AppCompatActivity {
 		}
 	}
 
+	/**
+	 * 设置总是显示溢出菜单
+	 *
+	 * @return void
+	 * @date 2015-7-25 12:01:31
+	 */
+	private void setOverflowShowingAlways() {
+		try {
+			ViewConfiguration config = ViewConfiguration.get(this);
+			Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+			menuKeyField.setAccessible(true);
+			menuKeyField.setBoolean(config, false);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		ButterKnife.unbind(this);
+	}
+
+
+	public void finish() {
+		KevinApplication.getInstance().mActivityStack.removeActivity(this);
+		super.finish();
+	}
 
 }

@@ -8,8 +8,12 @@ public class WalletActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wallet);
         init();
+    }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_wallet);
     }
 
     private void init(){

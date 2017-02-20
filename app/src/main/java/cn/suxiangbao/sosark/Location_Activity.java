@@ -51,7 +51,6 @@ public class Location_Activity extends BaseActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_location);
 		setTitle(R.string.title_location);
 		
 		initView();
@@ -59,7 +58,12 @@ public class Location_Activity extends BaseActivity
 		//初始化定位
 		initLocation();
 	}
-	
+
+	@Override
+	protected void initContentView() {
+		setContentView(R.layout.activity_location);
+	}
+
 	//初始化控件
 	private void initView(){
 		rgLocationMode = (RadioGroup) findViewById(R.id.rg_locationMode);

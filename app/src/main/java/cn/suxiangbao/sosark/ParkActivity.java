@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.suxiangbao.sosark.entity.Car;
-import cn.suxiangbao.sosark.entity.Park;
+import cn.suxiangbao.sosark.entity.CarPort;
 import cn.suxiangbao.sosark.innerview.ParkDetailActivity;
 import cn.suxiangbao.sosark.util.JsonArrayRequest;
 
@@ -36,15 +36,19 @@ public class ParkActivity extends BaseActivity {
 
     private static final String TAG = ParkActivity.class.getCanonicalName();
     private NormalRecyclerViewAdapter adapter ;
-    private List<Park> parks ;
+    private List<CarPort> parks ;
     private RecyclerView mParkList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_park);
         init();
+    }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_park);
     }
 
     private void init(){
@@ -73,7 +77,7 @@ public class ParkActivity extends BaseActivity {
             public void onResponse(JSONArray response) {
                 Log.i(TAG,response.toString());
                 Gson gson = new Gson();
-                List<Park> list =  gson.fromJson(response.toString(), new TypeToken<List<Car>>() {}.getType());
+                List<CarPort> list =  gson.fromJson(response.toString(), new TypeToken<List<Car>>() {}.getType());
                 parks.clear();
                 Collections.copy(parks,list);
                 adapter.notifyDataSetChanged();
@@ -102,7 +106,7 @@ public class ParkActivity extends BaseActivity {
 
         @Override
         public void onBindViewHolder(final ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder holder, int position) {
-            Park park = parks.get(position);
+            CarPort park = parks.get(position);
             //TODO
         }
 

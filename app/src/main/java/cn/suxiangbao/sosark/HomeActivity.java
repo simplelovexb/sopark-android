@@ -5,17 +5,19 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
-import android.support.v4.widget.SimpleCursorAdapter;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
-import android.view.MenuInflater;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -42,7 +44,6 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
 
 import java.util.HashMap;
@@ -50,12 +51,14 @@ import java.util.List;
 import java.util.Map;
 
 import cn.suxiangbao.sosark.entity.GeoPoint;
+import cn.suxiangbao.sosark.entity.UserInfo;
+import cn.suxiangbao.sosark.listener.UserInfoUpdateListener;
 import cn.suxiangbao.sosark.util.JsonArrayRequest;
 
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_GEO_NEAR;
 
 public class HomeActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener , LocationSource ,AMapLocationListener {
+        implements NavigationView.OnNavigationItemSelectedListener , LocationSource ,AMapLocationListener ,UserInfoUpdateListener{
     private ImageView mIcon;
     private TextView mNick;
     private TextView mIdentifySign;
@@ -73,10 +76,10 @@ public class HomeActivity extends BaseActivity
     private static final String LATITUDE = "latitude";
     private static final String DISTANCE = "distance";
     private Integer distance = 100;
+    private static final int UPDATE_USERINFO = 1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
         init(savedInstanceState);
     }
 
@@ -98,6 +101,13 @@ public class HomeActivity extends BaseActivity
         toggle.syncState();
     }
 
+    void updateUserinfoView(){
+        mIcon.setImageURI(userInfo.getLocalIconPath());
+
+        mNick.setText(userInfo.getNick());
+        mIdentifySign.setText(userInfo.getIdentifySign());
+    }
+
     private void initNav(){
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
@@ -112,7 +122,6 @@ public class HomeActivity extends BaseActivity
         mIcon = (ImageView) navHeader.findViewById(R.id.icon_user);
         mNick = (TextView) navHeader.findViewById(R.id.txt_nick);
         mIdentifySign = (TextView) navHeader.findViewById(R.id.txt_identify_sign);
-
 //        //TODO
 //        loadImage(userInfo.getIcon(),mIcon);
 //        String nick = userInfo.getNick();
@@ -250,6 +259,12 @@ public class HomeActivity extends BaseActivity
         mMapView.onResume();
         aMap.moveCamera(CameraUpdateFactory.zoomTo(16));
     }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_home);
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -408,6 +423,25 @@ public class HomeActivity extends BaseActivity
 
         return cursor;
     }
+
+    @Override
+    public void listener(UserInfo userInfo) {
+        this.userInfo = userInfo;
+        //TODO 更新view
+        Message msg = new Message();
+        msg.what = UPDATE_USERINFO;
+        myHandler.sendMessage(msg);
+        System.out.println(HomeActivity.class.getCanonicalName());
+    }
+
+    Handler myHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what){
+                case UPDATE_USERINFO:
+                    updateUserinfoView();
+            }
+        }
+    };
 //    class MyCursorAdapter extends CursorAdapter {
 //        Context  context=null;
 //        int viewResId;
@@ -434,5 +468,6 @@ public class HomeActivity extends BaseActivity
 //                    .getString(cursor.getColumnIndex("DISPLAY_NAME")));
 //        }
 //    }
+
 
 }

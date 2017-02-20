@@ -8,8 +8,12 @@ public class DriverCardDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_driver_card_detail);
         init();
+    }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_driver_card_detail);
     }
 
     private void init() {

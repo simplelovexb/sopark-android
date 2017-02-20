@@ -20,18 +20,18 @@ public  class JsonObjectRequest extends Request<JSONObject>{
     private Listener<JSONObject>  mListener;
 
 
+    @Override
+    protected Map<String, String> getParams() throws AuthFailureError {
+
+        return mMap;
+    }
+
+
     public JsonObjectRequest(int method ,String url, Listener<JSONObject> listener, ErrorListener errorListener, Map map) {
         super(method, url, errorListener);
         mListener=listener;
         mMap=map;
 
-    }
-
-
-    @Override
-    protected Map<String, String> getParams() throws AuthFailureError {
-
-        return mMap;
     }
 
     @Override

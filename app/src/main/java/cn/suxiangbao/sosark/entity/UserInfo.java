@@ -1,7 +1,10 @@
 package cn.suxiangbao.sosark.entity;
 
+import android.net.Uri;
+
 import com.google.gson.annotations.SerializedName;
 
+import java.net.URI;
 import java.util.List;
 
 /**
@@ -54,6 +57,8 @@ public class UserInfo {
      */
     @SerializedName(value = "phoneAuth")
     private Boolean phoneAuth;
+
+    private Uri localIconPath;
 
 
     /**
@@ -108,6 +113,14 @@ public class UserInfo {
         this.nick = nick;
     }
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
     public String getIcon() {
         return icon;
     }
@@ -130,14 +143,6 @@ public class UserInfo {
 
     public void setRealName(String realName) {
         this.realName = realName;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
 
     public AuthType getAuthType() {
@@ -188,20 +193,12 @@ public class UserInfo {
         this.phoneAuth = phoneAuth;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        UserInfo userInfo = (UserInfo) o;
-
-        return uid.equals(userInfo.uid);
-
+    public Uri getLocalIconPath() {
+        return localIconPath;
     }
 
-    @Override
-    public int hashCode() {
-        return uid.hashCode();
+    public void setLocalIconPath(Uri localIconPath) {
+        this.localIconPath = localIconPath;
     }
 
     @Override
@@ -221,6 +218,7 @@ public class UserInfo {
                 ", driverLicenses=" + driverLicenses +
                 ", emailAuth=" + emailAuth +
                 ", phoneAuth=" + phoneAuth +
+                ", localIconPath=" + localIconPath +
                 '}';
     }
 }

@@ -44,11 +44,12 @@ public class CarActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_car);
-
         init();
+    }
 
-
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_car);
     }
 
     private void init(){

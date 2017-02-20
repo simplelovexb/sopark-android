@@ -173,15 +173,29 @@
     <string name="default_title">无标题</string>
 
 
-    <string name="all_pic">全部图片</string>
-    <string name="preview_without_num">预览</string>
-    <string name="preview_with_num">预览(%1$d)</string>
-    <string name="choose_pic_finish">完成</string>
-    <string name="choose_pic_finish_with_num">完成(%1$d/%2$d)</string>
-    <string name="choose_pic_num_out_of_index">你最多只能选择%1$d张照片</string>
-    <string name="choose_pic">选择</string>
-    <string name="not_choose_any_pick">你还没有选择任何图片</string>
-    <string name="uploading_images">正在批量上传</string>
+    <string name="label_cancel">取消</string>
+    <string name="label_ok">确定</string>
+    <string name="permission_title_rationale">权限需求</string>
+    <string name="permission_read_storage_rationale">选择图片时需要读取权限</string>
+    <string name="permission_write_storage_rationale">拍照时需要存储权限</string>
+    <string name="txt_sign_up">注册</string>
+    <string name="title_activity_sign_up">注册</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">用户名</string>
+    <string name="prompt_password">密码</string>
+    <string name="action_sign_in_short">登录</string>
+    <string name="error_invalid_username">用户名无效</string>
+    <string name="error_invalid_password">密码太短</string>
+    <string name="error_incorrect_password">密码不正确</string>
+    <string name="error_field_required">不能为空</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="title_activity_login">登录</string>
+    <string name="txt_login">登录</string>
+
+    <string name="error_invalid_email">This email address is invalid</string>
 
 
 </resources>

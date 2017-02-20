@@ -1,10 +1,16 @@
 package cn.suxiangbao.sosark;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
+
+import java.io.File;
+
+import cn.suxiangbao.sosark.entity.UserInfo;
+import cn.suxiangbao.sosark.pic.KevinApplication;
 
 public class StartActivity extends BaseActivity {
 
@@ -13,7 +19,6 @@ public class StartActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start);
 
         AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f,1.0f);
         alphaAnimation.setDuration(1000);
@@ -33,6 +38,13 @@ public class StartActivity extends BaseActivity {
             public void onAnimationStart(Animation animation)
             {}
         });
+
+        loadData();
+    }
+
+    @Override
+    protected void initContentView() {
+        setContentView(R.layout.activity_start);
     }
 
     private void showActivity(Class<?> clazz)
@@ -40,5 +52,10 @@ public class StartActivity extends BaseActivity {
         Intent intent = new Intent(this, clazz);
         startActivity(intent);
         finish();
+    }
+
+    void loadData(){
+        //TODO  加载用户数据  如何将一些比较大的如用户头像  图片等  对于安全性要求不高的但比较大的  保存在本地
+
     }
 }

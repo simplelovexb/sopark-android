@@ -30,14 +30,18 @@ public class LastLocation_Activity extends BaseActivity implements OnClickListen
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_lastlocation);
 		setTitle(R.string.title_lastLocation);
 		tvReult = (TextView) findViewById(R.id.tv_result);
 		btnLastLoc = (Button) findViewById(R.id.bt_lastLoc);
 		btnLastLoc.setOnClickListener(this);
 		locationClient = new AMapLocationClient(this.getApplicationContext());
 	}
-	
+
+	@Override
+	protected void initContentView() {
+		setContentView(R.layout.activity_lastlocation);
+	}
+
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
