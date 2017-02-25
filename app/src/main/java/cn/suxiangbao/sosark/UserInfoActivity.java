@@ -102,11 +102,9 @@ public class UserInfoActivity extends BaseActivity {
 
     private void loadData(){
         //TODO
-        userInfo = KevinApplication.getInstance().userInfo;
-        System.out.println(userInfo);
-        if (userInfo!=null){
+        if (getUserInfo()!=null){
 
-            mIconUser.setImageURI(userInfo.getLocalIconPath());
+            mIconUser.setImageURI(getUserInfo().getLocalIconPath());
         }
     }
 

@@ -86,7 +86,7 @@ public class CarActivity extends BaseActivity {
                 Log.e(TAG,error.getMessage());
             }
         },params);
-        mQueue.add(jsonArrayRequest);
+        getmQueue().add(jsonArrayRequest);
     }
 
     private class NormalRecyclerViewAdapter extends RecyclerView.Adapter<NormalRecyclerViewAdapter.NormalTextViewHolder> {

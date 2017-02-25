@@ -2,6 +2,12 @@ package cn.suxiangbao.sosark.pic;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
+
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -27,12 +33,20 @@ import cn.suxiangbao.sosark.pic.activity.basic.ActivityStack;
 public class KevinApplication extends Application {
 
     protected static KevinApplication kevinApplication = null;
-    public WeakReference<Map<String,Object>> tempCache = new WeakReference<Map<String, Object>>(new HashMap<String, Object>()) ;
+    private static final String SET_COOKIE_KEY = "Set-Cookie";
+    private static final String COOKIE_KEY = "Cookie";
+    private static final String SESSION_COOKIE = "sid";
     /** 上下文 */
     protected Context mContext          = null;
     /** Activity 栈 */
     public ActivityStack mActivityStack = null;
     public UserInfo userInfo;
+    private RequestQueue mQueue;
+    private Gson mGson ;
+    public Boolean  isLogin;
+    private SharedPreferences preferences;
+
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -40,9 +54,17 @@ public class KevinApplication extends Application {
         kevinApplication = this;
         mContext = getApplicationContext();     // 获取上下文
         mActivityStack = new ActivityStack();   // 初始化Activity 栈
-
+        mQueue = Volley.newRequestQueue(mContext);
+        preferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mGson = new Gson();
         initConfiguration();
     }
+
+    public RequestQueue getmQueue() {
+        return mQueue;
+    }
+
+
 
     /**
      * 获取当前类实例对象
@@ -60,5 +82,48 @@ public class KevinApplication extends Application {
      */
     private void initConfiguration() {
 
+    }
+
+    public Gson getmGson() {
+        return mGson;
+    }
+
+
+
+    /**
+     * 检查返回的Response header中有没有session
+     * @param responseHeaders Response Headers.
+     */
+    public final void checkSessionCookie(Map<String, String> responseHeaders) {
+        if (responseHeaders.containsKey(SET_COOKIE_KEY)
+                && responseHeaders.get(SET_COOKIE_KEY).startsWith(SESSION_COOKIE)) {
+            String cookie = responseHeaders.get(SET_COOKIE_KEY);
+            if (cookie.length() > 0) {
+                String[] splitCookie = cookie.split(";");
+                String[] splitSessionId = splitCookie[0].split("=");
+                cookie = splitSessionId[1];
+                SharedPreferences.Editor prefEditor = preferences.edit();
+                prefEditor.putString(SESSION_COOKIE, cookie);
+                prefEditor.commit();
+            }
+        }
+    }
+
+    /**
+     * 添加session到Request header中
+     */
+    public final void addSessionCookie(Map<String, String> requestHeaders) {
+        String sessionId = preferences.getString(SESSION_COOKIE, "");
+        if (sessionId.length() > 0) {
+            StringBuilder builder = new StringBuilder();
+            builder.append(SESSION_COOKIE);
+            builder.append("=");
+            builder.append(sessionId);
+            if (requestHeaders.containsKey(COOKIE_KEY)) {
+                builder.append("; ");
+                builder.append(requestHeaders.get(COOKIE_KEY));
+            }
+            requestHeaders.put(COOKIE_KEY, builder.toString());
+        }
     }
 }

@@ -35,6 +35,8 @@ import cn.suxiangbao.sosark.config.RetCodeConfig;
 import cn.suxiangbao.sosark.entity.RetMsgObj;
 import cn.suxiangbao.sosark.util.JsonObjectRequest;
 
+import static cn.suxiangbao.sosark.config.ServerUrl.URL_SIGN_UP;
+
 /**
  * A login screen that offers login via email/password.
  */
@@ -102,12 +104,6 @@ public class SignUpActivity extends BaseActivity  {
     }
 
 
-
-    /**
-     * Attempts to sign in or register the account specified by the login form.
-     * If there are form errors (invalid email, missing fields, etc.), the
-     * errors are presented and no actual login attempt is made.
-     */
     private void attemptLogin() {
         Log.d(TAG,"attemptLogin");
 
@@ -147,13 +143,10 @@ public class SignUpActivity extends BaseActivity  {
             Map<String,String > params = new HashMap<>();
             params.put("username",username);
             params.put("password",password);
-
-
-
-            JsonObjectRequest requests =    new JsonObjectRequest(Request.Method.POST, "http://172.26.40.2:8888/chapter16/anon/signUp", new Response.Listener<JSONObject>() {
+            JsonObjectRequest requests =    new JsonObjectRequest(Request.Method.POST, URL_SIGN_UP, new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
-                    Gson gson = new Gson();
+                    Gson gson = mGson;
                     RetMsgObj ret   = gson.fromJson(response.toString(),new TypeToken<RetMsgObj>(){}.getType());
                     showProgress(false);
                     if (ret.getCode() == RetCodeConfig.FAILED || ret.getCode() == RetCodeConfig.USERNAME_EXISTED){
@@ -161,8 +154,17 @@ public class SignUpActivity extends BaseActivity  {
                         return;
                     }
                     if (ret.getCode() == RetCodeConfig.SUCCESS){
-                        startActivity(new Intent(SignUpActivity.this,LoginActivity.class));
+                        Intent i  = new Intent();
+                        Bundle bundle = new Bundle();
+                        bundle.putString("username",username);
+                        bundle.putString("password",password);
+                        i.putExtras(bundle);
+                        setResult(RESULT_OK,i);
                         finish();
+                    }else if (ret.getCode() == RetCodeConfig.USERNAME_EXISTED){
+                        mViewUsername.setError(ret.getMsg());
+                    }else{
+                        mViewUsername.setError(ret.getMsg());
                     }
                 }
             }, new Response.ErrorListener() {
@@ -172,8 +174,8 @@ public class SignUpActivity extends BaseActivity  {
                     Toast.makeText(SignUpActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
                 }
             },params);
+            getmQueue().add(requests);
             requests.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS, 0, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-            mQueue.add(requests);
 
         }
     }

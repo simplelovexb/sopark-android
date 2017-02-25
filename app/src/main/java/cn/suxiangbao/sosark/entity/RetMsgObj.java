@@ -6,10 +6,10 @@ import java.util.Map;
 /**
  * Created by sxb on 2017/2/19.
  */
-public class RetMsgObj {
+public class RetMsgObj<T> {
     private int code;
     private String msg;
-    private Integer size;
+    private T data;
 
     public RetMsgObj(int code, String msg) {
         super();
@@ -33,12 +33,12 @@ public class RetMsgObj {
         this.msg = msg;
     }
 
-    public Integer getSize() {
-        return size;
+    public T getData() {
+        return data;
     }
 
-    public void setSize(Integer size) {
-        this.size = size;
+    public void setData(T data) {
+        this.data = data;
     }
 
     public static RetMsgObj genMsgObj(int code) {
@@ -113,5 +113,14 @@ public class RetMsgObj {
             this.data = data;
         }
 
+    }
+
+    @Override
+    public String toString() {
+        return "RetMsgObj{" +
+                "code=" + code +
+                ", msg='" + msg + '\'' +
+                ", data=" + data +
+                '}';
     }
 }

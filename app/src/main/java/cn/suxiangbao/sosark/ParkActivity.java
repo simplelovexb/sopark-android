@@ -88,7 +88,7 @@ public class ParkActivity extends BaseActivity {
                 Log.e(TAG,error.getMessage());
             }
         },params);
-        mQueue.add(jsonArrayRequest);
+        getmQueue().add(jsonArrayRequest);
     }
 
 

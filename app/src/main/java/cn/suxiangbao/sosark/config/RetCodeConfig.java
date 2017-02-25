@@ -20,6 +20,7 @@ public class RetCodeConfig {
     public static int NOT_EXIST = 404;// 资源不存在（如Feed不存在）
     public static int SUCCESS = 1;
     public static int FAILED = 0;
+    public static int UNLOGIN = -1;
     public static int USER_NOT_EXIST = -1;// /app/validate、/user/get接口
     public static int USER_BANED = -8;// 所有接口都会返回，特别是/app/loginReport、/app/validate接口，用户被封禁（返回的msg字段会有封禁的结果，如“您因连续违规被封号24小时”，弹出提示用户）
 

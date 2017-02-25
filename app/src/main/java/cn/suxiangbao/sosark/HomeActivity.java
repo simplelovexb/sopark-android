@@ -44,17 +44,24 @@ import com.android.volley.VolleyError;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.suxiangbao.sosark.entity.GeoPoint;
+import cn.suxiangbao.sosark.entity.CarPort;
+import cn.suxiangbao.sosark.entity.RetMsgObj;
 import cn.suxiangbao.sosark.entity.UserInfo;
 import cn.suxiangbao.sosark.listener.UserInfoUpdateListener;
+import cn.suxiangbao.sosark.pic.KevinApplication;
 import cn.suxiangbao.sosark.util.JsonArrayRequest;
+import cn.suxiangbao.sosark.util.JsonObjectRequest;
 
+import static cn.suxiangbao.sosark.config.RetCodeConfig.SUCCESS;
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_GEO_NEAR;
 
 public class HomeActivity extends BaseActivity
@@ -74,7 +81,7 @@ public class HomeActivity extends BaseActivity
     private Map<String,Object> geoRequestParms;
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
-    private static final String DISTANCE = "distance";
+    private static final String DISTANCE = "dis";
     private Integer distance = 100;
     private static final int UPDATE_USERINFO = 1;
     @Override
@@ -102,10 +109,10 @@ public class HomeActivity extends BaseActivity
     }
 
     void updateUserinfoView(){
-        mIcon.setImageURI(userInfo.getLocalIconPath());
+        mIcon.setImageURI(getUserInfo().getLocalIconPath());
 
-        mNick.setText(userInfo.getNick());
-        mIdentifySign.setText(userInfo.getIdentifySign());
+        mNick.setText(getUserInfo().getNick());
+        mIdentifySign.setText(getUserInfo().getIdentifySign());
     }
 
     private void initNav(){
@@ -115,27 +122,33 @@ public class HomeActivity extends BaseActivity
         navHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(HomeActivity.this,UserInfoActivity.class);
-                startActivity(i);
+                if (getLogin()){
+                    Intent i = new Intent(HomeActivity.this,UserInfoActivity.class);
+                    startActivity(i);
+                }else{
+                    Intent i = new Intent(HomeActivity.this,LoginActivity.class);
+                    startActivity(i);
+                }
             }
         });
         mIcon = (ImageView) navHeader.findViewById(R.id.icon_user);
         mNick = (TextView) navHeader.findViewById(R.id.txt_nick);
         mIdentifySign = (TextView) navHeader.findViewById(R.id.txt_identify_sign);
-//        //TODO
-//        loadImage(userInfo.getIcon(),mIcon);
-//        String nick = userInfo.getNick();
-//        String identifySign = userInfo.getIdentifySign();
-//        if (StringUtils.isEmpty(nick)|| StringUtils.isBlank(nick)){
-//            nick = getResources().getString(R.string.default_nick);
-//        }
-//        if (StringUtils.isEmpty(identifySign)|| StringUtils.isBlank(identifySign)){
-//            identifySign = getResources().getString(R.string.default_identify_sign);
-//        }
-//
-//        mNick.setText(nick);
-//        mIdentifySign.setText(identifySign);
 
+        if (getLogin() && getUserInfo()!=null){
+            loadImage(getUserInfo().getIcon(),mIcon);
+            String nick = getUserInfo().getNick();
+            String identifySign = getUserInfo().getIdentifySign();
+            if (StringUtils.isEmpty(nick)|| StringUtils.isBlank(nick)){
+                nick = getResources().getString(R.string.default_nick);
+            }
+            if (StringUtils.isEmpty(identifySign)|| StringUtils.isBlank(identifySign)){
+                identifySign = getResources().getString(R.string.default_identify_sign);
+            }
+
+            mNick.setText(nick);
+            mIdentifySign.setText(identifySign);
+        }
     }
 
     private void initMap(Bundle savedInstanceState) {
@@ -164,14 +177,14 @@ public class HomeActivity extends BaseActivity
         myLocationStyle.radiusFillColor(Color.argb(0, 0, 0, 0));
         aMap.setMyLocationStyle(myLocationStyle);
         aMap.showIndoorMap(true);
-        aMap.moveCamera(CameraUpdateFactory.zoomTo(17));
+
         aMap.setLocationSource(this);//通过aMap对象设置定位数据源的监听
         mUiSettings = aMap.getUiSettings();//实例化UiSettings类对象
         mUiSettings.setMyLocationButtonEnabled(true); //显示默认的定位按钮
         mUiSettings.setCompassEnabled(true);
         mUiSettings.setScaleControlsEnabled(true);
         aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
-
+        aMap.moveCamera(CameraUpdateFactory.zoomTo(16));
     }
     public boolean onCreateOptionsMenu(Menu menu) {
 
@@ -291,24 +304,33 @@ public class HomeActivity extends BaseActivity
                 geoRequestParms.put(LATITUDE,aMapLocation.getLatitude()+"");
                 geoRequestParms.put(DISTANCE,distance+"");
 
-                JsonArrayRequest jsonObjectPostRequest=new JsonArrayRequest(Request.Method.POST,URL_GEO_NEAR, new Response.Listener<JSONArray>() {
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL_GEO_NEAR, new Response.Listener<JSONObject>() {
 
                     @Override
-                    public void onResponse(JSONArray response) {
-                        Log.i(TAG,response.toString());
-
-                        Gson gson = new Gson();
-                        List<GeoPoint> list  = gson.fromJson(response.toString(),new TypeToken<GeoPoint>(){}.getType());
-                        marker(list);
+                    public void onResponse(JSONObject response) {
+                        RetMsgObj<List<CarPort>> ret = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj<List<CarPort>>>(){}.getType());
+                        Log.i(TAG,"getTempNearData: ret = " + ret);
+                        int code = ret.getCode();
+                        String msg = ret.getMsg() ;
+                        List<CarPort> carPorts = ret.getData();
+                        if (code == SUCCESS){
+                            if (carPorts == null || carPorts.isEmpty()){
+                                Toast.makeText(HomeActivity.this, "附近无可用车位", Toast.LENGTH_SHORT).show();
+                            }else{
+                                marker(carPorts);
+                            }
+                        }else{
+                            Toast.makeText(HomeActivity.this,msg==null?code+"":msg,Toast.LENGTH_SHORT).show();
+                        }
                     }
-                }, new Response.ErrorListener(){
-
+                }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.e(TAG,"获取失败"+error.getMessage());
-
-                    }}, geoRequestParms);
-                mQueue.add(jsonObjectPostRequest);
+                        Toast.makeText(HomeActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                    }
+                },geoRequestParms);
+                getmQueue().add(jsonObjectRequest);
 
             } else {
                 String errText = "定位失败," + aMapLocation.getErrorCode()+ ": " + aMapLocation.getErrorInfo();
@@ -317,15 +339,16 @@ public class HomeActivity extends BaseActivity
         }
     }
 
-    private void marker(List<GeoPoint> parks){
+    private void marker(List<CarPort> parks){
         Log.i(TAG,"marker");
         int i = 0;
         if (parks == null){
             Log.i(TAG,"park is null");
             return;
         }
-        for (GeoPoint geoPoint : parks){
-            LatLng latLng = new LatLng(geoPoint.getLatitude(), geoPoint.getLongitude());
+        for (CarPort carPort : parks){
+            Double[] geoPoint = carPort.getCoordinate();
+            LatLng latLng = new LatLng(geoPoint[0], geoPoint[1]);
             MarkerOptions markerOption = new MarkerOptions();
             markerOption.position(latLng);
             markerOption.title("车位" + i++).snippet("幸福小区");
@@ -426,7 +449,7 @@ public class HomeActivity extends BaseActivity
 
     @Override
     public void listener(UserInfo userInfo) {
-        this.userInfo = userInfo;
+        KevinApplication.getInstance().userInfo = userInfo;
         //TODO 更新view
         Message msg = new Message();
         msg.what = UPDATE_USERINFO;

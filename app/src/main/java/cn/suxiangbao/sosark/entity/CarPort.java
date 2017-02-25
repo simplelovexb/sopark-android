@@ -25,8 +25,8 @@ public class CarPort {
     /**
      * 车位所在的全球经纬度地址
      */
-    @SerializedName(value = "coordinate", alternate = {"point", "geoPoint"})
-    private GeoPoint coordinate;
+    @SerializedName(value = "coordinate", alternate = {"point", "geoPoint","location"})
+    private Double[] coordinate;
 
     public Long getId() {
         return id;
@@ -60,11 +60,11 @@ public class CarPort {
         this.comment = comment;
     }
 
-    public GeoPoint getCoordinate() {
+    public Double[] getCoordinate() {
         return coordinate;
     }
 
-    public void setCoordinate(GeoPoint coordinate) {
+    public void setCoordinate(Double[] coordinate) {
         this.coordinate = coordinate;
     }
 
