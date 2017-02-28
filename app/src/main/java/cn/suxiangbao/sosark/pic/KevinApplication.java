@@ -8,8 +8,23 @@ import android.preference.PreferenceManager;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
+import com.google.gson.reflect.TypeToken;
 
 import java.lang.ref.WeakReference;
+import java.lang.reflect.Type;
+import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -56,7 +71,11 @@ public class KevinApplication extends Application {
         mActivityStack = new ActivityStack();   // 初始化Activity 栈
         mQueue = Volley.newRequestQueue(mContext);
         preferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mGson = new Gson();
+        mGson = new GsonBuilder().registerTypeAdapter(Date.class,
+                new UtilDateSerializer()).registerTypeAdapter(Calendar.class,
+                new UtilCalendarSerializer()).registerTypeAdapter(GregorianCalendar.class,
+                new UtilCalendarSerializer()).setDateFormat(DateFormat.LONG).setPrettyPrinting()
+                .create();
         initConfiguration();
     }
 
@@ -125,5 +144,56 @@ public class KevinApplication extends Application {
             }
             requestHeaders.put(COOKIE_KEY, builder.toString());
         }
+    }
+
+    public String getSid (){
+        String sessionId = preferences.getString(SESSION_COOKIE, "");
+        return sessionId;
+    }
+
+
+    private static class UtilDateSerializer implements JsonSerializer<Date>,JsonDeserializer<Date> {
+
+        @Override
+        public JsonElement serialize(Date date, Type type,
+                                     JsonSerializationContext context) {
+            return new JsonPrimitive(date.getTime());
+        }
+
+        @Override
+        public Date deserialize(JsonElement element, Type type, JsonDeserializationContext context)
+                throws JsonParseException {
+            return new Date(element.getAsJsonPrimitive().getAsLong());
+        }
+
+    }
+
+    private static class UtilCalendarSerializer implements JsonSerializer<Calendar>,JsonDeserializer<Calendar> {
+
+        @Override
+        public JsonElement serialize(Calendar cal, Type type,
+                                     JsonSerializationContext context) {
+            return new JsonPrimitive(Long.valueOf(cal.getTimeInMillis()));
+        }
+
+        @Override
+        public Calendar deserialize(JsonElement element, Type type,
+                                    JsonDeserializationContext context) throws JsonParseException {
+            Calendar cal = Calendar.getInstance();
+            cal.setTimeInMillis(element.getAsJsonPrimitive().getAsLong());
+            return cal;
+        }
+
+    }
+
+
+    public  <T> Map objToMap(T t){
+        if (t == null){
+            return null;
+        }
+        String userStr = mGson.toJson(t);
+        Map<String ,Object> params = mGson.fromJson(userStr,new TypeToken<Map>(){}.getType());
+
+        return params;
     }
 }

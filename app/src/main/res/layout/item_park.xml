@@ -13,14 +13,14 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/item_car_icon_width" >
         <TextView
-            android:id="@+id/txt_band_and_version"
+            android:id="@+id/txt_park_name"
             android:layout_weight="3"
             style="@style/blackText.titleText"
             android:gravity="right"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/txt_licence_plate"
+            android:id="@+id/txt_park_comment"
             style="@style/greyText"
             android:layout_weight="2"
             android:layout_width="match_parent"

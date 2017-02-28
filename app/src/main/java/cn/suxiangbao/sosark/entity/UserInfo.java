@@ -2,10 +2,14 @@ package cn.suxiangbao.sosark.entity;
 
 import android.net.Uri;
 
+import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.google.gson.reflect.TypeToken;
 
 import java.net.URI;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/1/23.
@@ -17,8 +21,6 @@ public class UserInfo {
     private Long uid;
     @SerializedName(value = "username",alternate = {"uName"})
     private String username;
-    @SerializedName(value = "password",alternate = {"pwd","passwd"})
-    private String password;
     @SerializedName(value = "nick")
     private String nick;
     @SerializedName(value = "email",alternate = {"e_mail"})
@@ -33,15 +35,16 @@ public class UserInfo {
      * 身份的认证类型
      */
     @SerializedName(value = "authType",alternate = {"status"})
-    private AuthType authType;
+    private int authType;
     @SerializedName(value = "phoneNum")
     private String phoneNum;
     /**
      * 身份证照片 包含正反面
      */
-
     @SerializedName(value = "idCards")
     private List<String> idCards;
+    @SerializedName(value = "createDate")
+    private Date createDate;
     /**
      * 驾驶证照片
      */
@@ -67,7 +70,7 @@ public class UserInfo {
      * NO_AUTH 认证不通过
      * AUTH_ING 认证中
      */
-    public enum AuthType {
+    public enum AuthType  {
 
         PASS(1), UNPASS(2), NO_AUTH(3), AUTH_ING(4);
 
@@ -97,13 +100,6 @@ public class UserInfo {
         this.username = username;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getNick() {
         return nick;
@@ -145,11 +141,11 @@ public class UserInfo {
         this.realName = realName;
     }
 
-    public AuthType getAuthType() {
+    public int getAuthType() {
         return authType;
     }
 
-    public void setAuthType(AuthType authType) {
+    public void setAuthType(int authType) {
         this.authType = authType;
     }
 
@@ -201,12 +197,19 @@ public class UserInfo {
         this.localIconPath = localIconPath;
     }
 
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
     @Override
     public String toString() {
         return "UserInfo{" +
                 "uid=" + uid +
                 ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
                 ", nick='" + nick + '\'' +
                 ", email='" + email + '\'' +
                 ", icon='" + icon + '\'' +
@@ -219,6 +222,9 @@ public class UserInfo {
                 ", emailAuth=" + emailAuth +
                 ", phoneAuth=" + phoneAuth +
                 ", localIconPath=" + localIconPath +
+                ", createDate="+createDate+
                 '}';
     }
+
+
 }

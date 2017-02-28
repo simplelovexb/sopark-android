@@ -20,6 +20,7 @@ import com.kevin.crop.UCrop;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Date;
 
 import cn.suxiangbao.sosark.R;
 import cn.suxiangbao.sosark.pic.activity.CropActivity;
@@ -64,7 +65,7 @@ public abstract class PictureSelectFragment extends BaseFragment implements Sele
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        mDestinationUri = Uri.fromFile(new File(activity.getCacheDir(), "cropImage.jpeg"));
+        mDestinationUri = Uri.fromFile(new File(activity.getCacheDir(), new Date().toString()+".png"));
         mTempPhotoPath = Environment.getExternalStorageDirectory() + File.separator + "photo.jpeg";
         mSelectPicturePopupWindow = new SelectPicturePopupWindow(mContext);
         mSelectPicturePopupWindow.setOnSelectedListener(this);

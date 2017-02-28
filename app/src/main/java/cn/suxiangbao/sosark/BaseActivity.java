@@ -4,6 +4,7 @@
 package cn.suxiangbao.sosark;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -47,6 +48,7 @@ import java.util.Map;
 import butterknife.ButterKnife;
 import cn.suxiangbao.sosark.entity.RetMsgObj;
 import cn.suxiangbao.sosark.entity.UserInfo;
+import cn.suxiangbao.sosark.listener.UserInfoUpdateListener;
 import cn.suxiangbao.sosark.pic.KevinApplication;
 import cn.suxiangbao.sosark.util.JsonObjectRequest;
 
@@ -54,6 +56,7 @@ import static cn.suxiangbao.sosark.config.RetCodeConfig.SUCCESS;
 import static cn.suxiangbao.sosark.config.RetCodeConfig.UNLOGIN;
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_FIND_SELF_INFO;
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_IS_LOGIN;
+import static cn.suxiangbao.sosark.config.ServerUrl.URL_UPDATE_INFO;
 
 /**
  * 继承了Activity，实现Android6.0的运行时权限检测
@@ -265,7 +268,7 @@ public abstract class BaseActivity extends AppCompatActivity {
                 Log.i(TAG,"loadImage Success");
                 imageView.setImageBitmap(response);
             }
-        }, (int)width, (int) height, type, Bitmap.Config.RGB_565, new Response.ErrorListener() {
+        }, width,  height, type, Bitmap.Config.RGB_565, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 Log.i(TAG,"loadImage Error");
@@ -377,11 +380,20 @@ public abstract class BaseActivity extends AppCompatActivity {
 		JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URL_IS_LOGIN, new Response.Listener<JSONObject>() {
 			@Override
 			public void onResponse(JSONObject response) {
-                RetMsgObj ret = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj>(){}.getType());
+                RetMsgObj<UserInfo> ret = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj<UserInfo>>(){}.getType());
                 Log.i(TAG,"isLogin : ret = " + ret );
                 int code = ret.getCode();
-                if (code == 1){
+                if (code == SUCCESS){
                     setLogin(true);
+//                    if (ret.getData() != null){
+//                        KevinApplication.getInstance().userInfo = ret.getData();
+//                        for (Activity activity : KevinApplication.getInstance().mActivityStack.activityList){
+//                            if (activity instanceof UserInfoUpdateListener){
+//                                ((UserInfoUpdateListener) activity).listener(getUserInfo());
+//                            }
+//                        }
+//                    }
+
                 }else{
                     setLogin(false);
                 }
@@ -399,6 +411,35 @@ public abstract class BaseActivity extends AppCompatActivity {
             }
         };
 		mQueue.add(request);
+	}
+
+	public void updateUserInfo(final UserInfo userInfo){
+		userInfo.setLocalIconPath(null);
+		JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URL_UPDATE_INFO, new Response.Listener<JSONObject>() {
+			@Override
+			public void onResponse(JSONObject response) {
+                RetMsgObj<UserInfo> ret = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj<UserInfo>>(){}.getType());
+                if (ret.getCode() == SUCCESS){
+                    Toast.makeText(getApplicationContext(),"更新用户信息成功",Toast.LENGTH_SHORT).show();
+                    KevinApplication.getInstance().userInfo = userInfo;
+                }else if (ret.getCode() == UNLOGIN){
+                    KevinApplication.getInstance().isLogin = false;
+                    Toast.makeText(getApplicationContext(),ret.getMsg(),Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(getApplicationContext(),"更新失败："+ret.getMsg(),Toast.LENGTH_SHORT).show();
+                }
+			}
+		}, new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(VolleyError error) {
+
+			}
+		},objToMap(userInfo));
+        mQueue.add(request);
+	}
+
+	public <T> Map<String,String> objToMap(T t){
+		return KevinApplication.getInstance().objToMap(t);
 	}
 
 }

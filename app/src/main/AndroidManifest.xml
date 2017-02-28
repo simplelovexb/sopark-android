@@ -45,11 +45,12 @@
     <application
         android:name=".pic.KevinApplication"
         android:allowBackup="true"
+        android:configChanges="keyboardHidden|orientation|screenSize"
         android:icon="@mipmap/ic_launcher"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.NoActionBar">
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="9a846020d26c9db3ee577d58483e5b8e" />
+            android:value="63a61d75b962dbdf51dd4babcff84d75" />
 
         <service android:name="com.amap.api.location.APSService" />
 
@@ -84,14 +85,10 @@
         </activity>
         <activity
             android:name=".ParkActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_park"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_park" />
         <activity
             android:name=".CarActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_car"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="@string/title_activity_car"/>
         <activity
             android:name=".CollectionActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
@@ -113,7 +110,7 @@
             android:label="@string/title_activity_manager"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".innerview.CarDetailActivity"
+            android:name=".CarDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
@@ -122,8 +119,9 @@
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name=".innerview.ParkDetailActivity"
+            android:name=".ParkDetailActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
+            android:label="@string/title_activity_park_detail"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".UserInfoEditPageActivity"
@@ -150,14 +148,14 @@
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUpActivity"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:label="@string/title_activity_sign_up" />
+            android:label="@string/title_activity_sign_up"/>
         <activity
             android:name=".LoginActivity"
-            android:configChanges="keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.NoActionBar"
-            android:label="@string/title_activity_login"></activity>
+            android:label="@string/title_activity_login"/>
+        <activity android:name=".CarEditActivity"
+            android:label="@string/title_activity_add_car"/>
+        <activity android:name=".ParkEditActivity"
+            android:label="@string/title_activity_add_park"/>
     </application>
 
 </manifest>

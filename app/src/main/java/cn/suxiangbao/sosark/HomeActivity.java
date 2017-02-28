@@ -38,10 +38,10 @@ import com.amap.api.maps.model.LatLng;
 import com.amap.api.maps.model.Marker;
 import com.amap.api.maps.model.MarkerOptions;
 import com.amap.api.maps.model.MyLocationStyle;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import org.apache.commons.lang3.StringUtils;
@@ -49,10 +49,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.suxiangbao.sosark.config.SystemConf;
 import cn.suxiangbao.sosark.entity.CarPort;
 import cn.suxiangbao.sosark.entity.RetMsgObj;
 import cn.suxiangbao.sosark.entity.UserInfo;
@@ -65,7 +67,7 @@ import static cn.suxiangbao.sosark.config.RetCodeConfig.SUCCESS;
 import static cn.suxiangbao.sosark.config.ServerUrl.URL_GEO_NEAR;
 
 public class HomeActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener , LocationSource ,AMapLocationListener ,UserInfoUpdateListener{
+        implements NavigationView.OnNavigationItemSelectedListener, LocationSource, AMapLocationListener, UserInfoUpdateListener {
     private ImageView mIcon;
     private TextView mNick;
     private TextView mIdentifySign;
@@ -78,12 +80,13 @@ public class HomeActivity extends BaseActivity
     private MapView mMapView = null;
     private UiSettings mUiSettings;//定义一个UiSettings对象
     private AMap aMap;
-    private Map<String,Object> geoRequestParms;
+    private Map<String, Object> geoRequestParms;
     private static final String LONGITUDE = "longitude";
     private static final String LATITUDE = "latitude";
     private static final String DISTANCE = "dis";
-    private Integer distance = 100;
+    private Integer distance = 1;
     private static final int UPDATE_USERINFO = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,13 +94,14 @@ public class HomeActivity extends BaseActivity
     }
 
 
-    private void init(Bundle savedInstanceState){
+    private void init(Bundle savedInstanceState) {
         initBaseView();
         initMap(savedInstanceState);
         initNav();
+        updateUserinfoView();
     }
 
-    private void initBaseView(){
+    private void initBaseView() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -108,25 +112,47 @@ public class HomeActivity extends BaseActivity
         toggle.syncState();
     }
 
-    void updateUserinfoView(){
-        mIcon.setImageURI(getUserInfo().getLocalIconPath());
+    void updateUserinfoView() {
+        UserInfo userInfo = getUserInfo();
+        if (getLogin() && userInfo != null) {
+            if (userInfo.getLocalIconPath() != null) {
+                mIcon.setImageURI(getUserInfo().getLocalIconPath());
+            } else {
+                if (userInfo.getIcon() != null) {
+                    loadImage(userInfo.getIcon(), mIcon);
+                }
+            }
+            if (!StringUtils.isBlank(userInfo.getNick())) {
+                mNick.setText(getUserInfo().getNick());
+            }else{
+                mNick.setText(R.string.default_nick);
+            }
+            if (!StringUtils.isBlank(userInfo.getNick())) {
+                mIdentifySign.setText(getUserInfo().getIdentifySign());
+            }else{
+                mIdentifySign.setText(R.string.default_identify_sign);
+            }
+        } else if (!getLogin()) {
 
-        mNick.setText(getUserInfo().getNick());
-        mIdentifySign.setText(getUserInfo().getIdentifySign());
+            mIcon.setImageResource(R.mipmap.defalt_icon);
+            mNick.setText(R.string.txt_please_login);
+            mIdentifySign.setText(R.string.txt_identify_sign);
+        }
+
     }
 
-    private void initNav(){
+    private void initNav() {
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         navHeader = navigationView.getHeaderView(0);
         navHeader.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (getLogin()){
-                    Intent i = new Intent(HomeActivity.this,UserInfoActivity.class);
+                if (getLogin()) {
+                    Intent i = new Intent(HomeActivity.this, UserInfoActivity.class);
                     startActivity(i);
-                }else{
-                    Intent i = new Intent(HomeActivity.this,LoginActivity.class);
+                } else {
+                    Intent i = new Intent(HomeActivity.this, LoginActivity.class);
                     startActivity(i);
                 }
             }
@@ -135,20 +161,20 @@ public class HomeActivity extends BaseActivity
         mNick = (TextView) navHeader.findViewById(R.id.txt_nick);
         mIdentifySign = (TextView) navHeader.findViewById(R.id.txt_identify_sign);
 
-        if (getLogin() && getUserInfo()!=null){
-            loadImage(getUserInfo().getIcon(),mIcon);
-            String nick = getUserInfo().getNick();
-            String identifySign = getUserInfo().getIdentifySign();
-            if (StringUtils.isEmpty(nick)|| StringUtils.isBlank(nick)){
-                nick = getResources().getString(R.string.default_nick);
-            }
-            if (StringUtils.isEmpty(identifySign)|| StringUtils.isBlank(identifySign)){
-                identifySign = getResources().getString(R.string.default_identify_sign);
-            }
-
-            mNick.setText(nick);
-            mIdentifySign.setText(identifySign);
-        }
+//        if (getLogin() && getUserInfo() != null) {
+//            loadImage(getUserInfo().getIcon(), mIcon);
+//            String nick = getUserInfo().getNick();
+//            String identifySign = getUserInfo().getIdentifySign();
+//            if (StringUtils.isEmpty(nick) || StringUtils.isBlank(nick)) {
+//                nick = getResources().getString(R.string.default_nick);
+//            }
+//            if (StringUtils.isEmpty(identifySign) || StringUtils.isBlank(identifySign)) {
+//                identifySign = getResources().getString(R.string.default_identify_sign);
+//            }
+//
+//            mNick.setText(nick);
+//            mIdentifySign.setText(identifySign);
+//        }
     }
 
     private void initMap(Bundle savedInstanceState) {
@@ -186,6 +212,7 @@ public class HomeActivity extends BaseActivity
         aMap.setMyLocationEnabled(true);// 可触发定位并显示当前位置
         aMap.moveCamera(CameraUpdateFactory.zoomTo(16));
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
 
         MenuInflater inflater = getMenuInflater();
@@ -195,9 +222,10 @@ public class HomeActivity extends BaseActivity
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                Toast.makeText(HomeActivity.this,"sdada.",Toast.LENGTH_SHORT).show();
+                Toast.makeText(HomeActivity.this, "sdada.", Toast.LENGTH_SHORT).show();
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) {
                 return false;
@@ -211,6 +239,7 @@ public class HomeActivity extends BaseActivity
                 Toast.makeText(HomeActivity.this, "onExpand", Toast.LENGTH_LONG).show();
                 return true;
             }
+
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
                 Toast.makeText(HomeActivity.this, "Collapse", Toast.LENGTH_LONG).show();
@@ -219,11 +248,12 @@ public class HomeActivity extends BaseActivity
         });
         Cursor cursor = this.getTestCursor();
         SimpleCursorAdapter adapter = new SimpleCursorAdapter(this,
-                R.layout.item_suggestion, cursor, new String[] { "tb_name" },
-                new int[] { R.id.textview });
+                R.layout.item_suggestion, cursor, new String[]{"tb_name"},
+                new int[]{R.id.textview});
         searchView.setSuggestionsAdapter(adapter);
         return true;
     }
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -240,19 +270,24 @@ public class HomeActivity extends BaseActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         Intent i = new Intent();
-        if (id == R.id.nav_park) {
-            i.setClass(HomeActivity.this,ParkActivity.class);
-        } else if (id == R.id.nav_car) {
-            i.setClass(HomeActivity.this,CarActivity.class);
-        } else if (id == R.id.nav_collection) {
-            i.setClass(HomeActivity.this,CollectionActivity.class);
-        } else if (id == R.id.nav_wallet) {
-            i.setClass(HomeActivity.this,WalletActivity.class);
-        } else if (id == R.id.nav_msg) {
-            i.setClass(HomeActivity.this,MsgActivity.class);
-        } else if (id == R.id.nav_manage) {
-            i.setClass(HomeActivity.this,ManageActivity.class);
+        if (!getLogin() && id != R.id.nav_manage && id == R.id.nav_msg) {
+            i.setClass(HomeActivity.this, LoginActivity.class);
+        } else {
+            if (id == R.id.nav_park) {
+                i.setClass(HomeActivity.this, ParkActivity.class);
+            } else if (id == R.id.nav_car) {
+                i.setClass(HomeActivity.this, CarActivity.class);
+            } else if (id == R.id.nav_collection) {
+                i.setClass(HomeActivity.this, CollectionActivity.class);
+            } else if (id == R.id.nav_wallet) {
+                i.setClass(HomeActivity.this, WalletActivity.class);
+            } else if (id == R.id.nav_msg) {
+                i.setClass(HomeActivity.this, MsgActivity.class);
+            } else if (id == R.id.nav_manage) {
+                i.setClass(HomeActivity.this, ManageActivity.class);
+            }
         }
+
         startActivity(i);
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -265,6 +300,7 @@ public class HomeActivity extends BaseActivity
         //在activity执行onDestroy时执行mMapView.onDestroy()，销毁地图
         mMapView.onDestroy();
     }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -284,86 +320,88 @@ public class HomeActivity extends BaseActivity
         //在activity执行onPause时执行mMapView.onPause ()，暂停地图的绘制
         mMapView.onPause();
     }
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
         //在activity执行onSaveInstanceState时执行mMapView.onSaveInstanceState (outState)，保存地图当前的状态
         mMapView.onSaveInstanceState(outState);
     }
+
     @Override
     public void onLocationChanged(AMapLocation aMapLocation) {
         if (mListener != null && aMapLocation != null) {
-            Log.i(getClass().getSimpleName(),"location change");
+            Log.i(getClass().getSimpleName(), "location change");
             if (aMapLocation != null
                     && aMapLocation.getErrorCode() == 0) {
                 mListener.onLocationChanged(aMapLocation);// 显示系统小蓝点
-                if (geoRequestParms == null ){
+                if (geoRequestParms == null) {
                     geoRequestParms = new HashMap<>();
                 }
-                geoRequestParms.put(LONGITUDE,aMapLocation.getLongitude()+"");
-                geoRequestParms.put(LATITUDE,aMapLocation.getLatitude()+"");
-                geoRequestParms.put(DISTANCE,distance+"");
-
-                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL_GEO_NEAR, new Response.Listener<JSONObject>() {
+                geoRequestParms.put(LONGITUDE, aMapLocation.getLongitude() + "");
+                geoRequestParms.put(LATITUDE, aMapLocation.getLatitude() + "");
+                geoRequestParms.put(DISTANCE, distance + "");
+                Log.i(TAG, geoRequestParms.toString());
+                JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, URL_GEO_NEAR, new Response.Listener<JSONObject>() {
 
                     @Override
                     public void onResponse(JSONObject response) {
-                        RetMsgObj<List<CarPort>> ret = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj<List<CarPort>>>(){}.getType());
-                        Log.i(TAG,"getTempNearData: ret = " + ret);
+                        RetMsgObj<List<CarPort>> ret = mGson.fromJson(response.toString(), new TypeToken<RetMsgObj<List<CarPort>>>() {}.getType());
+                        Log.i(TAG, "getTempNearData: ret = " + ret);
                         int code = ret.getCode();
-                        String msg = ret.getMsg() ;
+                        String msg = ret.getMsg();
                         List<CarPort> carPorts = ret.getData();
-                        if (code == SUCCESS){
-                            if (carPorts == null || carPorts.isEmpty()){
+                        if (code == SUCCESS) {
+                            if (carPorts == null || carPorts.isEmpty()) {
                                 Toast.makeText(HomeActivity.this, "附近无可用车位", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 marker(carPorts);
                             }
-                        }else{
-                            Toast.makeText(HomeActivity.this,msg==null?code+"":msg,Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(HomeActivity.this, msg == null ? code + "" : msg, Toast.LENGTH_SHORT).show();
                         }
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Log.e(TAG,"获取失败"+error.getMessage());
-                        Toast.makeText(HomeActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "获取失败" + error.getMessage());
+                        Toast.makeText(HomeActivity.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                },geoRequestParms);
+                }, geoRequestParms);
+                jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(SystemConf.START_WAIT_TIME_MS, 1, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 getmQueue().add(jsonObjectRequest);
 
             } else {
-                String errText = "定位失败," + aMapLocation.getErrorCode()+ ": " + aMapLocation.getErrorInfo();
-                Log.e(TAG,errText);
+                String errText = "定位失败," + aMapLocation.getErrorCode() + ": " + aMapLocation.getErrorInfo();
+                Log.e(TAG, errText);
             }
         }
     }
 
-    private void marker(List<CarPort> parks){
-        Log.i(TAG,"marker");
+    private void marker(List<CarPort> parks) {
+        Log.i(TAG, "marker");
         int i = 0;
-        if (parks == null){
-            Log.i(TAG,"park is null");
+        if (parks == null) {
+            Log.i(TAG, "park is null");
             return;
         }
-        for (CarPort carPort : parks){
+        for (CarPort carPort : parks) {
             Double[] geoPoint = carPort.getCoordinate();
             LatLng latLng = new LatLng(geoPoint[0], geoPoint[1]);
             MarkerOptions markerOption = new MarkerOptions();
             markerOption.position(latLng);
-            markerOption.title("车位" + i++).snippet("幸福小区");
+            markerOption.title(carPort.getName()).snippet(carPort.getComment());
             markerOption.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
             markerOption.draggable(true);//设置Marker可拖动
 // 将Marker设置为贴地显示，可以双指下拉地图查看效果
             markerOption.setFlat(true);//设置marker平贴地图效果
             Marker marker = aMap.addMarker(markerOption);
-
         }
     }
 
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
-        Log.d(TAG,"定位开始");
+        Log.d(TAG, "定位开始");
         mListener = onLocationChangedListener;
         if (mlocationClient == null) {
             //初始化定位
@@ -396,7 +434,6 @@ public class HomeActivity extends BaseActivity
     }
 
 
-
     public Cursor getTestCursor() {
 
         SQLiteDatabase db = SQLiteDatabase.openOrCreateDatabase(
@@ -407,15 +444,15 @@ public class HomeActivity extends BaseActivity
 
             String insertSql = "insert into tb_test values (null,?,?)";
 
-            db.execSQL(insertSql, new Object[] { "aa", 1 });
+            db.execSQL(insertSql, new Object[]{"aa", 1});
 
-            db.execSQL(insertSql, new Object[] { "ab", 2 });
+            db.execSQL(insertSql, new Object[]{"ab", 2});
 
-            db.execSQL(insertSql, new Object[] { "ac", 3 });
+            db.execSQL(insertSql, new Object[]{"ac", 3});
 
-            db.execSQL(insertSql, new Object[] { "ad", 4 });
+            db.execSQL(insertSql, new Object[]{"ad", 4});
 
-            db.execSQL(insertSql, new Object[] { "ae", 5 });
+            db.execSQL(insertSql, new Object[]{"ae", 5});
 
             String querySql = "select * from tb_test";
 
@@ -429,15 +466,15 @@ public class HomeActivity extends BaseActivity
 
             String insertSql = "insert into tb_test values (null,?,?)";
 
-            db.execSQL(insertSql, new Object[] { "aa", 1 });
+            db.execSQL(insertSql, new Object[]{"aa", 1});
 
-            db.execSQL(insertSql, new Object[] { "ab", 2 });
+            db.execSQL(insertSql, new Object[]{"ab", 2});
 
-            db.execSQL(insertSql, new Object[] { "ac", 3 });
+            db.execSQL(insertSql, new Object[]{"ac", 3});
 
-            db.execSQL(insertSql, new Object[] { "ad", 4 });
+            db.execSQL(insertSql, new Object[]{"ad", 4});
 
-            db.execSQL(insertSql, new Object[] { "ae", 5 });
+            db.execSQL(insertSql, new Object[]{"ae", 5});
 
             String querySql = "select * from tb_test";
 
@@ -449,19 +486,23 @@ public class HomeActivity extends BaseActivity
 
     @Override
     public void listener(UserInfo userInfo) {
+        if (KevinApplication.getInstance().userInfo == null) {
+            if (userInfo!=null)
+                userInfo.setCreateDate(new Date());
+        }
         KevinApplication.getInstance().userInfo = userInfo;
         //TODO 更新view
         Message msg = new Message();
         msg.what = UPDATE_USERINFO;
         myHandler.sendMessage(msg);
-        System.out.println(HomeActivity.class.getCanonicalName());
     }
 
     Handler myHandler = new Handler() {
         public void handleMessage(Message msg) {
-            switch (msg.what){
+            switch (msg.what) {
                 case UPDATE_USERINFO:
                     updateUserinfoView();
+                    break;
             }
         }
     };

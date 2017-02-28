@@ -135,6 +135,8 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="action_settings">Settings</string>
     <string name="action_signUp">注册</string>
+    <string name="action_edit_commit">完成</string>
+    <string name="action_edit">编辑</string>
 
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_home">共享车位</string>
@@ -151,6 +153,9 @@
 
     <string name="title_activity_pick_img">选择图片</string>
     <string name="title_activity_preview_img">图片预览</string>
+    <string name="title_activity_park_detail">车位详情</string>
+    <string name="title_activity_park_edit">车位编辑</string>
+
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -170,7 +175,8 @@
 
     <string name="default_identify_sign">这个人很懒，什么都没说</string>
     <string name="default_nick">新人宝宝</string>
-
+    <string name="txt_please_login">请登录</string>
+    <string name="txt_identify_sign">个性签名</string>
 
     <string name="default_title">无标题</string>
 
@@ -186,6 +192,17 @@
     <!-- Strings related to login -->
     <string name="prompt_email">用户名</string>
     <string name="prompt_password">密码</string>
+    <string name="prompt_park_name">车位名</string>
+    <string name="prompt_park_description">车位描述</string>
+    <string name="prompt_car_name">车辆名</string>
+    <string name="prompt_car_licence_plate">车牌号</string>
+
+    <string name="prompt_car_brand">品牌</string>
+    <string name="prompt_car_version">型号</string>
+
+
+
+
     <string name="action_sign_in_short">登录</string>
     <string name="error_invalid_username">用户名无效</string>
     <string name="error_invalid_password">密码太短</string>
@@ -195,9 +212,21 @@
         completions."
     </string>
     <string name="title_activity_login">登录</string>
+    <string name="title_activity_add_car">新增车辆</string>
+    <string name="title_activity_add_park">新增车位</string>
     <string name="txt_login">登录</string>
 
     <string name="error_invalid_email">This email address is invalid</string>
+    <string name="btn_logout">退出账号</string>
 
+    <string name="txt_park_img_1">车位照片1</string>
+    <string name="txt_park_img_2">车位照片2</string>
+    <string name="txt_car_img_front">车头照片</string>
+    <string name="txt_car_img_tail">车尾照片</string>
+    <string name="txt_car_img_left">车左身照片</string>
+    <string name="txt_car_img_right">车右身照片</string>
+    <string name="txt_car_year_check">年审照片</string>
+    <string name="txt_car_driver_licence_1">行驶证照片1</string>
+    <string name="txt_car_driver_licence_2">行驶证照片2</string>
 
 </resources>

@@ -3,6 +3,7 @@ package cn.suxiangbao.sosark;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -37,6 +38,8 @@ import java.util.Map;
 
 import cn.suxiangbao.sosark.config.RetCodeConfig;
 import cn.suxiangbao.sosark.entity.RetMsgObj;
+import cn.suxiangbao.sosark.entity.UserInfo;
+import cn.suxiangbao.sosark.listener.UserInfoUpdateListener;
 import cn.suxiangbao.sosark.pic.KevinApplication;
 import cn.suxiangbao.sosark.util.JsonObjectRequest;
 
@@ -155,7 +158,7 @@ public class LoginActivity extends BaseActivity  {
                 @Override
                 public void onResponse(JSONObject response) {
                     Log.i(TAG,response.toString());
-                    RetMsgObj ret   = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj>(){}.getType());
+                    RetMsgObj<UserInfo> ret   = mGson.fromJson(response.toString(),new TypeToken<RetMsgObj<UserInfo>>(){}.getType());
                     Log.i(TAG,"login ret = "+ret);
                     showProgress(false);
                     if (ret.getCode() == RetCodeConfig.FAILED || ret.getCode() == RetCodeConfig.USER_NOT_EXIST){
@@ -165,9 +168,15 @@ public class LoginActivity extends BaseActivity  {
                     }
                     if (ret.getCode() == RetCodeConfig.SUCCESS){
                         setLogin(true);
+                        if (ret.getData() != null){
+                            KevinApplication.getInstance().userInfo = ret.getData();
+                            for (Activity activity : KevinApplication.getInstance().mActivityStack.activityList){
+                                if (activity instanceof UserInfoUpdateListener){
+                                    ((UserInfoUpdateListener) activity).listener(getUserInfo());
+                                }
+                            }
+                        }
 
-//                        initUserInfo();
-                        isLogin();
                         finish();
                     }
                 }

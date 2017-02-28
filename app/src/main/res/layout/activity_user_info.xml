@@ -19,7 +19,7 @@
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/hdpi_user_icon_width"
             android:layout_height="@dimen/hdpi_user_icon_width"
-            app:srcCompat="@mipmap/test_user_icon" />
+            />
         <LinearLayout
 
             android:layout_marginLeft="@dimen/margin_left"
@@ -35,13 +35,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/margin_middle"
-                android:text="苏湘堡"/>
+                android:hint="@string/default_nick"/>
             <TextView
                 android:id="@+id/txt_account"
                 style="@style/greyText.normalSize"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="账号: 201330180221"/>
+                android:layout_height="wrap_content"/>
         </LinearLayout>
 
         <ImageView

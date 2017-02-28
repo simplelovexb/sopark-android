@@ -30,6 +30,7 @@
     <dimen name="padding_left">15dp</dimen>
     <dimen name="padding_right">15dp</dimen>
     <dimen name="padding_middle">2dp</dimen>
+    <dimen name="padding_left_little">8dp</dimen>
 
 
     <!-- Default screen margins, per the Android Design guidelines. -->
@@ -71,4 +72,9 @@
 
     <dimen name="checkbox_width2">22dp</dimen>
     <dimen name="checkbox_height2">22dp</dimen>
+
+    <dimen name="mdip_park_car_img_width">128dp</dimen>
+    <dimen name="mdip_park_car_img_height">128dp</dimen>
+    <dimen name="hdip_park_car_img_width">220dp</dimen>
+    <dimen name="hdip_park_car_img_height">220dp</dimen>
 </resources>

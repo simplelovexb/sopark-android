@@ -1,0 +1,160 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
+    <!-- Login progress -->
+    <ScrollView
+        android:id="@+id/car_edit_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_margin="@dimen/margin"
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <!-- 车辆快照 -->
+            <ImageView
+                android:id="@+id/icon_car_snapshot"
+                android:layout_width="@dimen/hdpi_user_icon_width"
+                android:layout_height="@dimen/hdpi_user_icon_height"
+                android:scaleType="centerCrop"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:src="@mipmap/defalt_icon"
+                android:layout_marginBottom="@dimen/margin"/>
+            <!-- 车辆名称 -->
+            <AutoCompleteTextView
+                android:id="@+id/car_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_car_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <!-- 车辆品牌 -->
+            <AutoCompleteTextView
+                android:id="@+id/car_brand"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_car_brand"
+                android:inputType="text"
+                android:maxLines="1"/>
+            <!-- 车辆型号 -->
+            <AutoCompleteTextView
+                android:id="@+id/car_version"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_car_version"
+                android:inputType="text"
+                android:maxLines="1" />
+            <!-- 车牌号码 -->
+            <AutoCompleteTextView
+                android:id="@+id/car_licence_plate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_car_licence_plate"
+                android:inputType="text"
+                android:maxLines="1" />
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_img_front"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_img_front"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_img_tail"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_img_tail"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_img_left"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_img_left"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_img_right"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_img_right"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_year_check"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_year_check"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_driver_licence_1"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_driver_licence_1"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_car_driver_licence_2"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_car_driver_licence_2"
+                android:layout_width="220dp"
+                android:layout_height="220dp"
+                android:layout_centerInParent="true" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

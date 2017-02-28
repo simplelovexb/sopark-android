@@ -1,0 +1,81 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+    <include layout="@layout/toolbar"/>
+    <!-- Login progress -->
+    <ScrollView
+        android:id="@+id/login_form"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_margin="@dimen/margin"
+            android:id="@+id/email_login_form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+
+            <!-- 车辆快照 -->
+            <ImageView
+                android:id="@+id/icon_park_snapshot"
+                android:layout_width="@dimen/hdpi_user_icon_width"
+                android:layout_height="@dimen/hdpi_user_icon_height"
+                android:scaleType="centerCrop"
+                android:paddingTop="@dimen/nav_header_vertical_spacing"
+                android:src="@mipmap/defalt_icon"
+                android:layout_marginBottom="@dimen/margin"/>
+
+            <AutoCompleteTextView
+                android:id="@+id/park_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_park_name"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true" />
+
+            <AutoCompleteTextView
+                android:id="@+id/park_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/prompt_park_description"
+                android:imeActionId="@+id/login"
+                android:imeActionLabel="@string/action_sign_in_short"
+                android:imeOptions="actionUnspecified"
+                android:inputType="textMultiLine"
+                android:maxLines="5"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_park_img_1"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_park_1"
+                android:layout_width="@dimen/hdip_park_car_img_width"
+                android:layout_height="@dimen/hdip_park_car_img_height"
+                android:layout_centerInParent="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/txt_park_img_1"
+                android:layout_marginTop="@dimen/margin"
+                android:layout_marginBottom="@dimen/margin"/>
+            <ImageView
+                android:src="@mipmap/default_select_photo"
+                android:id="@+id/img_park_2"
+                android:layout_width="@dimen/hdip_park_car_img_width"
+                android:layout_height="@dimen/hdip_park_car_img_height"
+                android:layout_centerInParent="true" />
+
+
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

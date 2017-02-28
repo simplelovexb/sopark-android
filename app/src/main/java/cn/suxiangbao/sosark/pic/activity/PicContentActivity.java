@@ -62,7 +62,7 @@ public class PicContentActivity extends BaseActivity {
                 mBitmap = bitmap;
                 Intent intent = new Intent();
                 //把返回数据存入Intent
-                intent.putExtra("userInfo", fileUri);
+                intent.putExtra("fileUri", fileUri);
                 //设置返回数据
                 setResult(RESULT_OK, intent);
             }

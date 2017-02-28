@@ -2,6 +2,7 @@ package cn.suxiangbao.sosark;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -10,27 +11,27 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-import org.json.JSONArray;
+import org.json.JSONObject;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import cn.suxiangbao.sosark.entity.Car;
 import cn.suxiangbao.sosark.entity.CarPort;
-import cn.suxiangbao.sosark.innerview.ParkDetailActivity;
-import cn.suxiangbao.sosark.util.JsonArrayRequest;
+import cn.suxiangbao.sosark.entity.RetMsgObj;
+import cn.suxiangbao.sosark.util.JsonObjectRequest;
+import cn.suxiangbao.sosark.view.DividerItemDecoration;
 
-import static cn.suxiangbao.sosark.config.ServerUrl.URL_PERSON_CARS_LIST;
+import static cn.suxiangbao.sosark.config.RetCodeConfig.SUCCESS;
+import static cn.suxiangbao.sosark.config.RetCodeConfig.UNLOGIN;
+import static cn.suxiangbao.sosark.config.ServerUrl.URL_PERSON_CARPORT_LIST;
 
 public class ParkActivity extends BaseActivity {
 
@@ -38,6 +39,8 @@ public class ParkActivity extends BaseActivity {
     private NormalRecyclerViewAdapter adapter ;
     private List<CarPort> parks ;
     private RecyclerView mParkList;
+    private FloatingActionButton fab ;
+
 
 
     @Override
@@ -59,36 +62,64 @@ public class ParkActivity extends BaseActivity {
     private void initView(){
         toolbarSetting();
         parks = new ArrayList<>();
-        mParkList = (RecyclerView) findViewById(R.id.list_park);
+        mParkList = (RecyclerView) findViewById(R.id.list);
         mParkList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new NormalRecyclerViewAdapter();
         mParkList.setAdapter(adapter);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent i = new Intent(ParkActivity.this,ParkEditActivity.class);
+                startActivity(i);
+            }
+        });
+
+
+        mParkList.addItemDecoration(new DividerItemDecoration(this,
+                DividerItemDecoration.VERTICAL_LIST));
     }
 
 
     private void loadData(){
 
-        //TODO
-        Map<String,String> params = new HashMap<>();
 
-        JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(Request.Method.GET, URL_PERSON_CARS_LIST, new Response.Listener<JSONArray>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, URL_PERSON_CARPORT_LIST, new Response.Listener<JSONObject>() {
 
-            @Override
-            public void onResponse(JSONArray response) {
+            public void onResponse(JSONObject response) {
                 Log.i(TAG,response.toString());
-                Gson gson = new Gson();
-                List<CarPort> list =  gson.fromJson(response.toString(), new TypeToken<List<Car>>() {}.getType());
-                parks.clear();
-                Collections.copy(parks,list);
-                adapter.notifyDataSetChanged();
+                RetMsgObj<List<CarPort>> ret =  mGson.fromJson(response.toString(), new TypeToken<RetMsgObj<List<CarPort>>>(){}.getType());
+//
+                if (ret.getCode() == SUCCESS){
+                    if (ret.getData() == null || ret.getData().isEmpty()){
+                        Toast.makeText(ParkActivity.this,"你当前没有车位",Toast.LENGTH_SHORT).show();
+                        parks.clear();
+                        adapter.notifyDataSetChanged();
+                    }else{
+                        parks.clear();
+                        for (CarPort carPort :ret.getData()){
+                            parks.add(carPort);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+
+                }else {
+                    if (ret.getCode() == UNLOGIN){
+                        setLogin(false);
+                    }
+                    Toast.makeText(ParkActivity.this,ret.getMsg()!=null?ret.getMsg():"",Toast.LENGTH_SHORT).show();
+                }
+
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(ParkActivity.this,error.getMessage(),Toast.LENGTH_SHORT).show();
                 Log.e(TAG,error.getMessage());
             }
-        },params);
-        getmQueue().add(jsonArrayRequest);
+        },null);
+        getmQueue().add(jsonObjectRequest);
+
     }
 
 
@@ -101,12 +132,16 @@ public class ParkActivity extends BaseActivity {
 
         @Override
         public ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder(mLayoutInflater.inflate(R.layout.item_park, parent, false));
+            return new ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder(mLayoutInflater.inflate(R.layout.item_park, null, false));
         }
 
         @Override
         public void onBindViewHolder(final ParkActivity.NormalRecyclerViewAdapter.NormalTextViewHolder holder, int position) {
             CarPort park = parks.get(position);
+            holder.parkName.setText(park.getName());
+            loadImage(park.getPic1(),holder.icon);
+            holder.parkComment.setText(park.getComment());
+            holder.setTag(park);
             //TODO
         }
 
@@ -117,23 +152,39 @@ public class ParkActivity extends BaseActivity {
 
         public class NormalTextViewHolder extends RecyclerView.ViewHolder {
             ImageView icon;
-            TextView bandAndVersion;
-            TextView licencePlate;
-
+            TextView parkName;
+            TextView parkComment;
+            View mView;
             NormalTextViewHolder(View view) {
                 super(view);
-                icon = (ImageView) view.findViewById(R.id.icon_car);
-                bandAndVersion = (TextView) view.findViewById(R.id.txt_band_and_version);
-                licencePlate = (TextView) view.findViewById(R.id.txt_licence_plate);
+                this.mView = view;
+                icon = (ImageView) view.findViewById(R.id.icon_park);
+                parkName = (TextView) view.findViewById(R.id.txt_park_name);
+                parkComment = (TextView) view.findViewById(R.id.txt_park_comment);
 
                 view.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(ParkActivity.this, ParkDetailActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("data", (Serializable) v.getTag());
+                        i.putExtras(bundle);
                         startActivity(i);
                     }
                 });
             }
+
+            public void setTag(CarPort c){
+                mView.setTag(c);
+            }
+
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadData();
+
     }
 }

@@ -1,15 +1,15 @@
-package cn.suxiangbao.sosark.innerview;
+package cn.suxiangbao.sosark;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import cn.suxiangbao.sosark.R;
 
-public class ParkDetailActivity extends AppCompatActivity {
+public class CarDetailActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_park_detail);
+        setContentView(R.layout.activity_car_detail);
     }
 }

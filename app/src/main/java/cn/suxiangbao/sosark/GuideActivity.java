@@ -1,6 +1,7 @@
 package cn.suxiangbao.sosark;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class GuideActivity extends AppCompatActivity {
@@ -39,6 +41,9 @@ public class GuideActivity extends AppCompatActivity {
         // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
         mViewPager.setAdapter(mSectionsPagerAdapter);
+        imgs[0] = R.mipmap.guide1;
+        imgs[1] = R.mipmap.guide2;
+        imgs[2] = R.mipmap.guide3;
     }
 
 
@@ -57,7 +62,7 @@ public class GuideActivity extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            return PlaceholderFragment.newInstance(position );
         }
 
         @Override
@@ -109,9 +114,9 @@ public class GuideActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                 Bundle savedInstanceState) {
             final View rootView = inflater.inflate(R.layout.fragment_guide, container, false);
-            TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            ImageView imageView = (ImageView) rootView.findViewById(R.id.img_guide);
             int index = getArguments().getInt(ARG_SECTION_NUMBER);
-            if (index == imgs.length){
+            if (index == imgs.length-1){
                 Button button = (Button) rootView.findViewById(R.id.btn_start);
                 button.setVisibility(View.VISIBLE);
                 button.setOnClickListener(new View.OnClickListener() {
@@ -123,7 +128,7 @@ public class GuideActivity extends AppCompatActivity {
                     }
                 });
             }
-            textView.setText(getString(R.string.section_format, index));
+            imageView.setImageResource(imgs[index]);
             return rootView;
         }
     }

@@ -8,8 +8,10 @@ import com.android.volley.Response.ErrorListener;
 import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONObject;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +24,6 @@ public  class JsonObjectRequest extends Request<JSONObject>{
 
     @Override
     protected Map<String, String> getParams() throws AuthFailureError {
-
         return mMap;
     }
 
@@ -40,13 +41,15 @@ public  class JsonObjectRequest extends Request<JSONObject>{
     protected Response<JSONObject> parseNetworkResponse(NetworkResponse response)
     {
         KevinApplication.getInstance().checkSessionCookie(response.headers);
-        String parsed;
+        String parsed=null;
         JSONObject jb =null;
         try
         {
             parsed = new String(response.data, HttpHeaderParser.parseCharset(response.headers));
             jb = new JSONObject(parsed);
+
         } catch (Exception e) {
+            System.err.println(parsed==null ? "sdasdasdas":parsed);
             e.printStackTrace();
         }
         return Response.success(jb, HttpHeaderParser.parseCacheHeaders(response));
@@ -61,7 +64,7 @@ public  class JsonObjectRequest extends Request<JSONObject>{
     @Override
     public Map<String, String> getHeaders() throws AuthFailureError
     {
-        Map<String, String> headers = super.getHeaders();
+        Map headers = super.getHeaders();
 
         if (headers == null
                 || headers.equals(Collections.emptyMap())) {

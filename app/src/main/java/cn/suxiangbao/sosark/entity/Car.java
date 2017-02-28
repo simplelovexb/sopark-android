@@ -42,10 +42,20 @@ public class Car {
     @SerializedName(value = "uid",alternate ={ "belong_id","belongId"})
     private Long uid;
     /**
-     * 证件
+     * 行驶证 size = 2
      */
-    @SerializedName(value = "credentials")
-    private List<String> credentials;
+    @SerializedName(value = "imgDriverLicence")
+    private List<String> imgDriverLicence;
+    /**
+     *
+     */
+    @SerializedName(value = "imgCarPic")
+    private List<String> imgCarPic;
+    /**
+     * 年审照片
+     */
+    @SerializedName(value = "imgYearCheck")
+    private String imgYearCheck;
     /**
      * 是否通过审核
      */
@@ -116,12 +126,28 @@ public class Car {
         this.uid = uid;
     }
 
-    public List<String> getCredentials() {
-        return credentials;
+    public List<String> getImgDriverLicence() {
+        return imgDriverLicence;
     }
 
-    public void setCredentials(List<String> credentials) {
-        this.credentials = credentials;
+    public void setImgDriverLicence(List<String> imgDriverLicence) {
+        this.imgDriverLicence = imgDriverLicence;
+    }
+
+    public List<String> getImgCarPic() {
+        return imgCarPic;
+    }
+
+    public void setImgCarPic(List<String> imgCarPic) {
+        this.imgCarPic = imgCarPic;
+    }
+
+    public String getImgYearCheck() {
+        return imgYearCheck;
+    }
+
+    public void setImgYearCheck(String imgYearCheck) {
+        this.imgYearCheck = imgYearCheck;
     }
 
     public Boolean getChecked() {
@@ -169,7 +195,9 @@ public class Car {
                 ", createDate=" + createDate +
                 ", updateDate=" + updateDate +
                 ", uid=" + uid +
-                ", credentials=" + credentials +
+                ", imgDriverLicence=" + imgDriverLicence +
+                ", imgCarPic=" + imgCarPic +
+                ", imgYearCheck='" + imgYearCheck + '\'' +
                 ", isChecked=" + isChecked +
                 '}';
     }
